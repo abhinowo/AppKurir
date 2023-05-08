@@ -12,6 +12,7 @@ import Login from './src/screens/login';
 import Home from './src/screens/home';
 import DataKurir from './src/screens/dataKurir';
 import EditKurir from './src/screens/editKurir';
+import Register from './src/screens/register';
 
 const Stack = createNativeStackNavigator();
 
@@ -25,6 +26,7 @@ const App = () => {
                 }}>
                 <Stack.Screen name="Login" component={Login}/>
                 <Stack.Screen name="Home" component={Home}/>
+                <Stack.Screen name= "Register" component={Register}></Stack.Screen>
                 <Stack.Screen name="DataKurir" component={DataKurir}/>
                 <Stack.Screen name='EditKurir' component={EditKurir}/> 
             </Stack.Navigator>

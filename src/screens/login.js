@@ -1,7 +1,6 @@
 import * as React from 'react';
 import {View,Text,TextInput,StyleSheet,SafeAreaView,Image,Button,TouchableOpacity,StatusBar} from 'react-native';
 import colors from '../assets/colors/colors';
-// import { TouchableOpacity } from 'react-native-gesture-handler';
 
 const login = ({navigation}) =>{
     return(

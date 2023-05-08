@@ -20,13 +20,13 @@ const register = ({navigation}) =>{
             </View>
             <Text style={styles.txtTitle}>Alamat Email</Text>
             <View style={styles.inputWrapper}> 
-                <Image source= {require('../assets/images/password/password.png')} style={styles.backIconPass}/>
+                <Image source= {require('../assets/images/email/mail.png')} style={styles.backIconPass}/>
                 <Image source= {require('../assets/images/Line.png')} style={styles.backgroundph}/>
                 <TextInput style={styles.inputPass} placeholder="Masukan alamat email mu" placeholderTextColor={colors.textLight}/>
             </View>
             <Text style={styles.txtTitle}>Nomor Handphone</Text>
             <View style={styles.inputWrapper}> 
-                <Image source= {require('../assets/images/password/password.png')} style={styles.backIconPass}/>
+                <Image source= {require('../assets/images/call/call.png')} style={styles.backIconPass}/>
                 <Image source= {require('../assets/images/Line.png')} style={styles.backgroundph}/>
                 <TextInput style={styles.inputPass} placeholder="Masukan nomor handphone mu" placeholderTextColor={colors.textLight}/>
             </View>
@@ -54,7 +54,15 @@ const register = ({navigation}) =>{
             <TouchableOpacity style={styles.btnMasuk} onPress={() => navigation.navigate('DataKurir')}>
                 <Text style={styles.txtButton}> Masuk</Text>
             </TouchableOpacity>
+        {/* Register */}
+            <View style={styles.loginWrapper}>
+                <Text>Sudah memiliki akun? Login</Text>
+                <TouchableOpacity onPress={() => navigation.navigate('Login')}>
+                    <Text style={styles.txtLogin}> disini</Text>
+                </TouchableOpacity>
+            </View>
         </View>
+
     )
 }
 
@@ -64,6 +72,15 @@ const styles = StyleSheet.create({
     container: {
         flex:1,
         backgroundColor: colors.background,
+    },
+    loginWrapper:{
+        flexDirection:'row',
+        marginTop:16,
+    },
+    txtLogin:{
+        color: colors.bgkurir,
+        fontFamily: 'Quicksand-Bold',
+        fontSize: 12,
     },
     inputWrapper:{
         marginTop: 6,
