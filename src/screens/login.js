@@ -1,17 +1,44 @@
 import * as React from 'react';
 import {View,Text,TextInput,StyleSheet,SafeAreaView,Image,Button,TouchableOpacity,StatusBar} from 'react-native';
 import colors from '../assets/colors/colors';
+import {
+    GoogleSignin,
+    statusCodes,
+} from '@react-native-google-signin/google-signin';
+import {useState} from 'react';
+import {useSelector} from 'react-redux'
+
+
 
 const login = ({navigation}) =>{
+     // const globalState = useSelector((state) => state)
+    // const[form, ] = useState({
+    //     kodeKurir: '',
+    //     password:'',
+    // });
+
+    // const sendData = () => {
+    //     console.log('data yang dikirim: ', form)
+    // };
+
+    // const onIputChange = (value,input) => {
+    //     setForm({
+    //         ...form,
+    //         [input]: value,
+    //     });
+    // };
+
     return(
         <View style={styles.container}>
         <StatusBar backgroundColor={colors.textUltraDark} barStyle="light-content"/>
+        
         {/*Title*/}
             <View style={styles.titleWrapper}>
                 <Text style={styles.title}>Masuk</Text>
                 <Text style={styles.subTitle}>Sudah punya akun ? masuk sekarang </Text>
             </View>
             <Text style={styles.txtTitle}>Kode Kurir</Text>
+        
         {/*Input*/}
             <View style={styles.inputWrapper}>
                 <Image source= {require('../assets/images/username/username.png')} style={styles.backIconUser}/>
@@ -24,10 +51,30 @@ const login = ({navigation}) =>{
                 <Image source= {require('../assets/images/Line.png')} style={styles.backgroundph}/>
                 <TextInput style={styles.inputPass} placeholder="Masukan Kata Sandi" placeholderTextColor={colors.textLight}/>
             </View>
+        
         {/*Button*/}
-            <TouchableOpacity style={styles.btnMasuk} onPress={() => navigation.navigate('DataKurir')}>
+            <TouchableOpacity style={styles.btnMasuk} onPress={sendData}{() => navigation.navigate('DataKurir')}>
                 <Text style={styles.txtButton}> Masuk</Text>
             </TouchableOpacity>
+        
+        {/*Button Google*/}
+        <Button style={styles.btnGoogle} title={'Sign in with Google'} onPress={() =>  {
+        GoogleSignin.configure({
+             //   androidClientId: '1010936747062-hjm04813igf09gckm21k9ga9g89boqc8.apps.googleusercontent.com',
+             //   iosClientId: 'ADD_YOUR_iOS_CLIENT_ID_HERE',
+            });
+        GoogleSignin.hasPlayServices().then((hasPlayService) => {
+                if (hasPlayService) {
+                    GoogleSignin.signIn().then((userInfo) => {
+                            console.log(JSON.stringify(userInfo))
+                    }).catch((e) => {
+                    console.log("ERROR IS: " + JSON.stringify(e));
+                    })
+                }
+        }).catch((e) => {
+            console.log("ERROR IS: " + JSON.stringify(e));
+        })
+        }} />
         </View>
     )
 }
@@ -122,6 +169,12 @@ const styles = StyleSheet.create({
         paddingVertical: 16,
         marginHorizontal: 20,
         backgroundColor: colors.button,
+    },
+    btnGoogle:{
+        marginTop:30,
+        borderRadius:10,
+        paddingVertical: 16,
+        marginHorizontal: 20,
     },
     txtButton:{
         textAlign: 'center',
