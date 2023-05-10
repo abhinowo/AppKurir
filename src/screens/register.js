@@ -5,7 +5,7 @@ import colors from '../assets/colors/colors';
 import { useSelector, useEffect, useDispatch } from 'react-redux';
 import {setForm} from '../redux'
 
-const register = ({navigation}) =>{
+const Register = ({navigation}) =>{
     // const registerReducer = useSelector(state=>state.registerReducer)
     // const dispatch = useDispatch();
 
@@ -94,7 +94,6 @@ const register = ({navigation}) =>{
                 </CheckBox>
             </View> */}
 
-
             <Text style={styles.inputSyarat}> Saya menyetujui syarat dan ketentuan yang berlaku </Text>
         
         {/*Button*/}
@@ -114,7 +113,7 @@ const register = ({navigation}) =>{
     )
 }
 
-export default register;
+export default Register;
 
 const styles = StyleSheet.create({ 
     container: {

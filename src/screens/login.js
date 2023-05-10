@@ -10,7 +10,7 @@ import {useSelector} from 'react-redux'
 
 
 
-const login = ({navigation}) =>{
+const Login = ({navigation}) =>{
      // const globalState = useSelector((state) => state)
     // const[form, ] = useState({
     //     kodeKurir: '',
@@ -83,7 +83,7 @@ const login = ({navigation}) =>{
     )
 }
 
-export default login;
+export default Login;
 
 const styles = StyleSheet.create({ 
     container: {
@@ -163,8 +163,8 @@ const styles = StyleSheet.create({
         left:22,
         height:20,
         fontFamily: 'Quicksand-Medium',
-        fontwweight:500,
-        fontsize : 16,
+        fontWeight:500,
+        fontSize : 16,
         color: colors.bgkurir,
     },
     btnMasuk:{

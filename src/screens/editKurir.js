@@ -2,7 +2,7 @@ import * as React from 'react';
 import {View,Text,TextInput,StyleSheet,SafeAreaView,Image,Button,TouchableOpacity} from 'react-native';
 import colors from '../assets/colors/colors';
 
-const editKurir = ({navigation}) =>{
+const EditKurir = ({navigation}) =>{
     return(
         <View style={styles.container}>
             {/*Header*/}
@@ -39,7 +39,7 @@ const editKurir = ({navigation}) =>{
     )
 }
 
-export default editKurir;
+export default EditKurir;
 
 const styles = StyleSheet.create({
     container: {
