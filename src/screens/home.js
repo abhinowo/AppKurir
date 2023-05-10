@@ -1,6 +1,48 @@
 import * as React from 'react';
 import {View,Text,TextInput,StyleSheet,SafeAreaView,Image,Button,TouchableOpacity} from 'react-native';
+import {useState, useEffect} from 'react';
+import {AsyncStorage} from '@react-native-async-storage/async-storage';
+
 import colors from '../assets/colors/colors';
+
+
+
+const InitialStateUser = {
+    const [user,setUsers] = useState([]);
+    const [ID, setID] = useState('');
+    const [nama, setNama] = useState('');
+    const [KodePosko, setKodePosko] = useState('');
+    const [email, setEmail] = useState('');
+    const [alamat, setAlamat] = useState('');
+}
+
+useEffect(() => {
+    getData();
+}, []);
+
+const getData = async () => {
+    try{
+        const value = await AsyncStorage.getItem(user);
+        if(value !== null){
+            const data = JSON.parse(value);
+            setUsers(data);
+        }
+    } catch(e){
+        console.log('error: ', e);
+    }
+};
+
+// adding the usestate with payload and async from the user
+const storeData = async (value) => {
+    try{
+        const newUser = JSON.stringify(user);
+        const updatedUser = [...user, newUser];
+        await AsyncStorage.setItem(user, JSON.stringify(updatedUser));
+        setUsers(updatedUser);
+    } catch(e){
+        console.log('error: ', e);
+    }
+};
 
 const Home = ({navigation}) =>{
     return(
@@ -13,23 +55,33 @@ const Home = ({navigation}) =>{
         {/*Input*/}
             <Text style={styles.inputTitleAwal}>ID Kurir</Text>
             <View style={styles.inputWrapper}>
-                <TextInput style={styles.inputPh} placeholder="Masukan ID produk" placeholderTextColor={colors.textLight}/>
+                <TextInput style={styles.inputPh} 
+                    placeholder="Masukan ID produk" 
+                    placeholderTextColor={colors.textLight}/>
             </View>
             <Text style={styles.inputTitle}>Nama Kurir</Text>
             <View style={styles.inputWrapper}>
-                <TextInput style={styles.inputPh} placeholder="Masukan Nama Kurir" placeholderTextColor={colors.textLight}/>
+                <TextInput style={styles.inputPh} 
+                    placeholder="Masukan Nama Kurir" 
+                    placeholderTextColor={colors.textLight}/>
             </View>
             <Text style={styles.inputTitle}>Kode Posko</Text>
             <View style={styles.inputWrapper}>
-                <TextInput style={styles.inputPh} placeholder="Masukan Kode Posko" placeholderTextColor={colors.textLight}/>
+                <TextInput style={styles.inputPh} 
+                    placeholder="Masukan Kode Posko" 
+                    placeholderTextColor={colors.textLight}/>
             </View>
-            <Text style={styles.inputTitle}>Kode Posko</Text>
+            <Text style={styles.inputTitle}>Email</Text>
             <View style={styles.inputWrapper}>
-                <TextInput style={styles.inputPh} placeholder="Masukan Email yang terdaftar" placeholderTextColor={colors.textLight}/>
+                <TextInput style={styles.inputPh} 
+                    placeholder="Masukan Email yang terdaftar" 
+                    placeholderTextColor={colors.textLight}/>
             </View>
             <Text style={styles.inputTitle}>Alamat</Text>
             <View style={styles.inputWrapper}>
-                <TextInput style={styles.inputPh} placeholder="Masukan alamat tinggal kurir" placeholderTextColor={colors.textLight}/>
+                <TextInput style={styles.inputPh} 
+                    placeholder="Masukan alamat tinggal kurir"
+                    placeholderTextColor={colors.textLight}/>
             </View>
         {/*Button*/}
             <TouchableOpacity style={styles.btnMasuk}>
@@ -38,6 +90,7 @@ const Home = ({navigation}) =>{
         </View>
     )
 }
+
 
 export default Home;
 

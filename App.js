@@ -9,7 +9,6 @@ import {Text} from 'react-native';
 import {Provider} from 'react-redux';
 import {store} from './src/redux/store';
 
-
 import Login from './src/screens/login';
 import Home from './src/screens/home';
 import Register from './src/screens/register';
@@ -27,9 +26,9 @@ const App = () => {
                         initialRouteName: 'Login',
                         headerShown: false
                     }}>
+                    <Stack.Screen name="Home" component={Home}/>
                     <Stack.Screen name= "Register" component={Register}></Stack.Screen>
                     <Stack.Screen name="Login" component={Login}/>
-                    <Stack.Screen name="Home" component={Home}/>
                     <Stack.Screen name="DataKurir" component={DataKurir}/>
                     <Stack.Screen name='EditKurir' component={EditKurir}/> 
                 </Stack.Navigator>
