@@ -64,7 +64,7 @@ const login = ({navigation}) =>{
         {/*Button Google*/}
         <Button style={styles.btnGoogle} title={'Sign in with Google'} onPress={() =>  {
         GoogleSignin.configure({
-             //   androidClientId: '1010936747062-hjm04813igf09gckm21k9ga9g89boqc8.apps.googleusercontent.com',
+                  androidClientId: '1010936747062-hjm04813igf09gckm21k9ga9g89boqc8.apps.googleusercontent.com',
              //   iosClientId: 'ADD_YOUR_iOS_CLIENT_ID_HERE',
             });
         GoogleSignin.hasPlayServices().then((hasPlayService) => {
@@ -175,7 +175,7 @@ const styles = StyleSheet.create({
         backgroundColor: colors.button,
     },
     btnGoogle:{
-        marginTop:30,
+        marginTop:50,
         borderRadius:10,
         paddingVertical: 16,
         marginHorizontal: 20,

@@ -6,59 +6,57 @@ import {createSelector} from 'reselect'
 
 // import { Divider } from '@rneui/themed';
 
-
-
-// const ListKurir =[
-//     {
-//     "id" : "1",
-//     "KodeKurir": 'JBG001',
-//     "nama" : 'Suryana',
-//     "Alamat" : "Jl. Tanah Abang 3",
-//     "KodePosko" : 'BKS01',
-//     },
-//     {
-//     "id" : "2",
-//     "KodeKurir": 'JBG001',
-//     "nama" : 'Sutarno',
-//     "Alamat" : "Jl. Tanah Abang 3",
-//     "KodePosko" : 'BKS01',
-//     },
-//     {
-//     "id" : "3",
-//     "KodeKurir": 'JBG001',
-//     "nama" : 'John',
-//     "Alamat" : "Jl. Tanah Abang 3",
-//     "KodePosko" : 'BKS01',
-//     },
-//     {
-//     "id" : "4",
-//     "KodeKurir": 'JBG001',
-//     "nama" : 'Jono',
-//     "Alamat" : "Jl. Tanah Abang 3",
-//     "KodePosko" : 'BKS01',
-//     },
-//     {
-//     "id" : "5",
-//     "KodeKurir": 'JBG001',
-//     "nama" : 'Markonah',
-//     "Alamat" : "Jl. Tanah Abang 3",
-//     "KodePosko" : 'BKS01',
-//     },
-//     {
-//     "id" : "6",
-//     "KodeKurir": 'JBG001',
-//     "nama" : 'Tugiono',
-//     "Alamat" : "Jl. Tanah Abang 3",
-//     "KodePosko" : 'BKS01',
-//     },
-//     {
-//     "id" : "7",
-//     "KodeKurir": 'JBG001',
-//     "nama" : 'Mamang',
-//     "Alamat" : "Jl. Tanah Abang 3",
-//     "KodePosko" : 'BKS01',
-//     }
-// ]
+const ListKurir =[
+    {
+    "id" : "1",
+    "KodeKurir": 'JBG001',
+    "nama" : 'Suryana',
+    "Alamat" : "Jl. Tanah Abang 3",
+    "KodePosko" : 'BKS01',
+    },
+    {
+    "id" : "2",
+    "KodeKurir": 'JBG001',
+    "nama" : 'Sutarno',
+    "Alamat" : "Jl. Tanah Abang 3",
+    "KodePosko" : 'BKS01',
+    },
+    {
+    "id" : "3",
+    "KodeKurir": 'JBG001',
+    "nama" : 'John',
+    "Alamat" : "Jl. Tanah Abang 3",
+    "KodePosko" : 'BKS01',
+    },
+    {
+    "id" : "4",
+    "KodeKurir": 'JBG001',
+    "nama" : 'Jono',
+    "Alamat" : "Jl. Tanah Abang 3",
+    "KodePosko" : 'BKS01',
+    },
+    {
+    "id" : "5",
+    "KodeKurir": 'JBG001',
+    "nama" : 'Markonah',
+    "Alamat" : "Jl. Tanah Abang 3",
+    "KodePosko" : 'BKS01',
+    },
+    {
+    "id" : "6",
+    "KodeKurir": 'JBG001',
+    "nama" : 'Tugiono',
+    "Alamat" : "Jl. Tanah Abang 3",
+    "KodePosko" : 'BKS01',
+    },
+    {
+    "id" : "7",
+    "KodeKurir": 'JBG001',
+    "nama" : 'Mamang',
+    "Alamat" : "Jl. Tanah Abang 3",
+    "KodePosko" : 'BKS01',
+    }
+]
 
 //editing listkurir with redux
 // const ListKurir = useSelector(state => state.listKurir)

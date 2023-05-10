@@ -6,8 +6,8 @@ import { useSelector, useEffect, useDispatch } from 'react-redux';
 import {setForm} from '../redux'
 
 const register = ({navigation}) =>{
-    const registerReducer = useSelector(state=>state.registerReducer)
-    const dispatch = useDispatch();
+    // const registerReducer = useSelector(state=>state.registerReducer)
+    // const dispatch = useDispatch();
 
     // const [form, setForm] = useState({
     //     namaLengkap: '',
@@ -21,13 +21,13 @@ const register = ({navigation}) =>{
     //     console.log('reducer: ', registerReducer);
     // }, [registerReducer])
 
-    const sendData = () => {
-        console.log('data yang dikirim', registerReducer.form);
-    };
+    // const sendData = () => {
+    //     console.log('data yang dikirim', registerReducer.form);
+    // };
 
-    const onInputChange = (value,input) => {
-        dispatch(setForm(inputType, value));
-    };
+    // const onInputChange = (value,input) => {
+    //     dispatch(setForm(inputType, value));
+    // };
 
     return(
         <View style={styles.container}>
@@ -47,7 +47,7 @@ const register = ({navigation}) =>{
                 <Image source= {require('../assets/images/Line.png')} style={styles.backgroundph}/>
                 <TextInput style={styles.inputUser} 
                     placeholder="Masukan nama lengkap mu"
-                    value = {registerReducer.username}
+                    // value = {registerReducer.username}
                     placeholderTextColor={colors.textLight}/>
             </View>
             <Text style={styles.txtTitle}>Alamat Email</Text>
@@ -56,7 +56,7 @@ const register = ({navigation}) =>{
                 <Image source= {require('../assets/images/Line.png')} style={styles.backgroundph}/>
                 <TextInput style={styles.inputPass} 
                     placeholder="Masukan alamat email mu"
-                    value = {registerReducer.email}
+                    // value = {registerReducer.email}
                     placeholderTextColor={colors.textLight}/>
             </View>
             <Text style={styles.txtTitle}>Nomor Handphone</Text>
@@ -65,6 +65,7 @@ const register = ({navigation}) =>{
                 <Image source= {require('../assets/images/Line.png')} style={styles.backgroundph}/>
                 <TextInput style={styles.inputPass} 
                     placeholder="Masukan nomor handphone mu" 
+                    // value = {registerReducer.noHp}
                     placeholderTextColor={colors.textLight}/>
             </View>
             <Text style={styles.txtTitle}>Kata Sandi</Text>
@@ -73,6 +74,7 @@ const register = ({navigation}) =>{
                 <Image source= {require('../assets/images/Line.png')} style={styles.backgroundph}/>
                 <TextInput style={styles.inputPass} 
                     placeholder="Masukan password mu" 
+                    // value = {registerReducer.pass}
                     placeholderTextColor={colors.textLight}/>
             </View>
             <Text style={styles.txtTitle}>Ulangi Kata Sandi</Text>
@@ -81,6 +83,7 @@ const register = ({navigation}) =>{
                 <Image source= {require('../assets/images/Line.png')} style={styles.backgroundph}/>
                 <TextInput style={styles.inputPass} 
                     placeholder="Ulangi password mu" 
+                    // vallue = {registerReducer.rePass}
                     placeholderTextColor={colors.textLight}/>
             </View>
             {/* <View style={styles.checkboxContainer}>
