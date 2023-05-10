@@ -103,7 +103,7 @@ const Register = ({navigation}) =>{
             
         {/* Register */}
             <View style={styles.loginWrapper}>
-                <Text>Sudah memiliki akun? Login</Text>
+                <Text style={styles.txtDaftar}>Sudah memiliki akun? Login</Text>
                 <TouchableOpacity onPress={() => navigation.navigate('Login')}>
                     <Text style={styles.txtLogin}> disini</Text>
                 </TouchableOpacity>
@@ -125,9 +125,9 @@ const styles = StyleSheet.create({
         marginTop:16,
     },
     txtLogin:{
-        color: colors.bgkurir,
+        color: 'blue',
         fontFamily: 'Quicksand-Bold',
-        fontSize: 12,
+        fontSize: 16,
     },
     inputWrapper:{
         marginTop: 6,
@@ -213,6 +213,7 @@ const styles = StyleSheet.create({
         marginHorizontal: 20,
         backgroundColor: colors.button,
     },
+    
     txtButton:{
         textAlign: 'center',
         fontsize: 18,
@@ -221,6 +222,13 @@ const styles = StyleSheet.create({
     checkboxContainer:{
         flexDirection: 'row',
         marginBottom: 20,
+    },
+    txtDaftar:{
+        // marginTop: 16,
+        marginLeft: 22,
+        color: colors.bgkurir,
+        fontFamily: 'Quicksand-Bold',
+        fontSize: 16,
     },
     checkbox:{
         alignSelf: 'center',

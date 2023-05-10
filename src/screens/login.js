@@ -7,26 +7,11 @@ import {
 } from '@react-native-google-signin/google-signin';
 import {useState} from 'react';
 import {useSelector} from 'react-redux'
-
+import { AuthContext } from '../context/AuthContext';
 
 
 const Login = ({navigation}) =>{
-     // const globalState = useSelector((state) => state)
-    // const[form, ] = useState({
-    //     kodeKurir: '',
-    //     password:'',
-    // });
-
-    // const sendData = () => {
-    //     console.log('data yang dikirim: ', form)
-    // };
-
-    // const onIputChange = (value,input) => {
-    //     setForm({
-    //         ...form,
-    //         [input]: value,
-    //     });
-    // };
+    // const {login} = useContext{AuthContext}
 
     return(
         <View style={styles.container}>
@@ -44,6 +29,8 @@ const Login = ({navigation}) =>{
                 <Image source= {require('../assets/images/username/username.png')} style={styles.backIconUser}/>
                 <Image source= {require('../assets/images/Line.png')} style={styles.backgroundph}/>
                 <TextInput style={styles.inputUser} 
+                    // value = {email}
+                    // onChangeText={text=>setEmail(text)}
                     placeholder="Masukan Kode Kurir" 
                     placeholderTextColor={colors.textLight}/>
             </View>
@@ -52,6 +39,8 @@ const Login = ({navigation}) =>{
                 <Image source= {require('../assets/images/password/password.png')} style={styles.backIconPass}/>
                 <Image source= {require('../assets/images/Line.png')} style={styles.backgroundph}/>
                 <TextInput style={styles.inputPass} 
+                    // value = {password}
+                    // onChangeText={text=>setPassword(text)}
                     placeholder="Masukan Kata Sandi" 
                     placeholderTextColor={colors.textLight}/>
             </View>
@@ -60,6 +49,14 @@ const Login = ({navigation}) =>{
             <TouchableOpacity style={styles.btnMasuk} onPress={() => navigation.navigate('DataKurir')}>
                 <Text style={styles.txtButton}> Masuk</Text>
             </TouchableOpacity>
+
+        {/* Button Belum punya akun */}
+            <View style={styles.loginWrapper}>
+                <Text style={styles.txtDaftar}>Belum memiliki akun? Daftar</Text>
+                <TouchableOpacity onPress={() => navigation.navigate('Register')}>
+                    <Text style={styles.txtRegis}> disini</Text>
+                </TouchableOpacity>
+            </View>
         
         {/*Button Google*/}
         <Button style={styles.btnGoogle} title={'Sign in with Google'} onPress={() =>  {
@@ -79,6 +76,8 @@ const Login = ({navigation}) =>{
             console.log("ERROR IS: " + JSON.stringify(e));
         })
         }} />
+
+
         </View>
     )
 }
@@ -184,6 +183,23 @@ const styles = StyleSheet.create({
         textAlign: 'center',
         fontsize: 18,
         fontFamily: 'Quicksand-Bold',
+    },
+    txtRegis:{
+        color: 'blue',
+        fontFamily: 'Quicksand-Bold',
+        fontSize: 16,
+    },
+    txtDaftar:{
+        // marginTop: 16,
+        marginLeft: 22,
+        color: colors.bgkurir,
+        fontFamily: 'Quicksand-Bold',
+        fontSize: 16,
+    },
+    loginWrapper:{
+        flexDirection:'row',
+        marginTop:10,
+        marginBottom: 16
     }
         
 });
