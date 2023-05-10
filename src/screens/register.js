@@ -1,59 +1,104 @@
 import * as React from 'react';
-import {View,Text,TextInput,StyleSheet,SafeAreaView,Image,Button,TouchableOpacity,StatusBar,CheckBox} from 'react-native';
+import {View,Text,TextInput,StyleSheet,SafeAreaView,Image,Button,TouchableOpacity,StatusBar} from 'react-native';
 import colors from '../assets/colors/colors';
 
+import { useSelector, useEffect, useDispatch } from 'react-redux';
+import {setForm} from '../redux'
+
 const register = ({navigation}) =>{
+    const registerReducer = useSelector(state=>state.registerReducer)
+    const dispatch = useDispatch();
+
+    // const [form, setForm] = useState({
+    //     namaLengkap: '',
+    //     email:'',
+    //     noHp:'',
+    //     pass:'',
+    //     rePass:'',
+    // })
+
+    // useEffect(() => {
+    //     console.log('reducer: ', registerReducer);
+    // }, [registerReducer])
+
+    const sendData = () => {
+        console.log('data yang dikirim', registerReducer.form);
+    };
+
+    const onInputChange = (value,input) => {
+        dispatch(setForm(inputType, value));
+    };
+
     return(
         <View style={styles.container}>
         <StatusBar backgroundColor={colors.textUltraDark} barStyle="light-content"/>
+
         {/*Title*/}
             <View style={styles.titleWrapper}>
                 <Text style={styles.title}>Daftar</Text>
                 <Text style={styles.subTitle}>Belum punya akun ? daftar sekarang </Text>
             </View>
             <Text style={styles.txtTitle}>Nama Lengkap</Text>
+
         {/*Input*/}
             <View style={styles.inputWrapper}>
-                <Image source= {require('../assets/images/username/username.png')} style={styles.backIconUser}/>
+                <Image 
+                source= {require('../assets/images/username/username.png')} style={styles.backIconUser}/>
                 <Image source= {require('../assets/images/Line.png')} style={styles.backgroundph}/>
-                <TextInput style={styles.inputUser} placeholder="Masukan nama lengkap mu" placeholderTextColor={colors.textLight}/>
+                <TextInput style={styles.inputUser} 
+                    placeholder="Masukan nama lengkap mu"
+                    value = {registerReducer.username}
+                    placeholderTextColor={colors.textLight}/>
             </View>
             <Text style={styles.txtTitle}>Alamat Email</Text>
             <View style={styles.inputWrapper}> 
                 <Image source= {require('../assets/images/email/mail.png')} style={styles.backIconPass}/>
                 <Image source= {require('../assets/images/Line.png')} style={styles.backgroundph}/>
-                <TextInput style={styles.inputPass} placeholder="Masukan alamat email mu" placeholderTextColor={colors.textLight}/>
+                <TextInput style={styles.inputPass} 
+                    placeholder="Masukan alamat email mu"
+                    value = {registerReducer.email}
+                    placeholderTextColor={colors.textLight}/>
             </View>
             <Text style={styles.txtTitle}>Nomor Handphone</Text>
             <View style={styles.inputWrapper}> 
                 <Image source= {require('../assets/images/call/call.png')} style={styles.backIconPass}/>
                 <Image source= {require('../assets/images/Line.png')} style={styles.backgroundph}/>
-                <TextInput style={styles.inputPass} placeholder="Masukan nomor handphone mu" placeholderTextColor={colors.textLight}/>
+                <TextInput style={styles.inputPass} 
+                    placeholder="Masukan nomor handphone mu" 
+                    placeholderTextColor={colors.textLight}/>
             </View>
             <Text style={styles.txtTitle}>Kata Sandi</Text>
             <View style={styles.inputWrapper}> 
                 <Image source= {require('../assets/images/password/password.png')} style={styles.backIconPass}/>
                 <Image source= {require('../assets/images/Line.png')} style={styles.backgroundph}/>
-                <TextInput style={styles.inputPass} placeholder="Masukan password mu" placeholderTextColor={colors.textLight}/>
+                <TextInput style={styles.inputPass} 
+                    placeholder="Masukan password mu" 
+                    placeholderTextColor={colors.textLight}/>
             </View>
             <Text style={styles.txtTitle}>Ulangi Kata Sandi</Text>
             <View style={styles.inputWrapper}> 
                 <Image source= {require('../assets/images/password/password.png')} style={styles.backIconPass}/>
                 <Image source= {require('../assets/images/Line.png')} style={styles.backgroundph}/>
-                <TextInput style={styles.inputPass} placeholder="Ulangi password mu" placeholderTextColor={colors.textLight}/>
+                <TextInput style={styles.inputPass} 
+                    placeholder="Ulangi password mu" 
+                    placeholderTextColor={colors.textLight}/>
             </View>
-            <View style={styles.checkboxContainer}>
+            {/* <View style={styles.checkboxContainer}>
                 <CheckBox 
                     value={isSelected}
                     onValueChange={setSelection}
                     style={styles.checkbox}>
                 </CheckBox>
-            </View>
+            </View> */}
+
+
             <Text style={styles.inputSyarat}> Saya menyetujui syarat dan ketentuan yang berlaku </Text>
+        
         {/*Button*/}
             <TouchableOpacity style={styles.btnMasuk} onPress={() => navigation.navigate('DataKurir')}>
                 <Text style={styles.txtButton}> Masuk</Text>
             </TouchableOpacity>
+            
         {/* Register */}
             <View style={styles.loginWrapper}>
                 <Text>Sudah memiliki akun? Login</Text>
@@ -124,8 +169,8 @@ const styles = StyleSheet.create({
     },
     inputPass:{
         // marginTop:22,
-        marginLeft:36,
         // paddingHorizontal:78,
+        marginLeft:36,
         color: colors.textUltraDark,
         fontFamily: 'Quicksand-Bold',
         fontSize: 12,

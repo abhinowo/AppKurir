@@ -43,17 +43,21 @@ const login = ({navigation}) =>{
             <View style={styles.inputWrapper}>
                 <Image source= {require('../assets/images/username/username.png')} style={styles.backIconUser}/>
                 <Image source= {require('../assets/images/Line.png')} style={styles.backgroundph}/>
-                <TextInput style={styles.inputUser} placeholder="Masukan Kode Kurir" placeholderTextColor={colors.textLight}/>
+                <TextInput style={styles.inputUser} 
+                    placeholder="Masukan Kode Kurir" 
+                    placeholderTextColor={colors.textLight}/>
             </View>
             <Text style={styles.txtTitle}>Kata Sandi</Text>
             <View style={styles.inputWrapper}> 
                 <Image source= {require('../assets/images/password/password.png')} style={styles.backIconPass}/>
                 <Image source= {require('../assets/images/Line.png')} style={styles.backgroundph}/>
-                <TextInput style={styles.inputPass} placeholder="Masukan Kata Sandi" placeholderTextColor={colors.textLight}/>
+                <TextInput style={styles.inputPass} 
+                    placeholder="Masukan Kata Sandi" 
+                    placeholderTextColor={colors.textLight}/>
             </View>
         
         {/*Button*/}
-            <TouchableOpacity style={styles.btnMasuk} onPress={sendData}{() => navigation.navigate('DataKurir')}>
+            <TouchableOpacity style={styles.btnMasuk} onPress={() => navigation.navigate('DataKurir')}>
                 <Text style={styles.txtButton}> Masuk</Text>
             </TouchableOpacity>
         
