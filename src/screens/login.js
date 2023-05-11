@@ -5,9 +5,13 @@ import {
     GoogleSignin,
     statusCodes,
 } from '@react-native-google-signin/google-signin';
-import {useState} from 'react';
+import {useState,useEffect} from 'react';
 import {useSelector} from 'react-redux'
 import { AuthContext } from '../context/AuthContext';
+
+// import GoogleSVG from '../assets/images/google.svg';
+// import FacebookSVG from '../assets/images/facebook.svg';
+// import TwitterSVG from '../assets/images/twitter.svg';
 
 
 const Login = ({navigation}) =>{
@@ -43,6 +47,9 @@ const Login = ({navigation}) =>{
                     // onChangeText={text=>setPassword(text)}
                     placeholder="Masukan Kata Sandi" 
                     placeholderTextColor={colors.textLight}/>
+            <TouchableOpacity onPress={() => navigation.navigate('Register')}>
+                <Text style={styles.txtForgot}> Forgot </Text>
+            </TouchableOpacity>
             </View>
         
         {/*Button*/}
@@ -50,33 +57,60 @@ const Login = ({navigation}) =>{
                 <Text style={styles.txtButton}> Masuk</Text>
             </TouchableOpacity>
 
+        {/* Alternatif Login */}
+            <View>
+                <Text style={styles.txtAlt}>Atau masuk dengan ...</Text>
+            </View>
+
+        {/* Google */}
+        <View style={styles.logoWrapper}>
+            <View>
+                <TouchableOpacity style={styles.klikLogo}
+                    onPress={() => {
+                    GoogleSignin.configure({
+                    androidClientId: '1010936747062-hjm04813igf09gckm21k9ga9g89boqc8.apps.googleusercontent.com',
+                     //   iosClientId: 'ADD_YOUR_iOS_CLIENT_ID_HERE',
+                });
+                    GoogleSignin.hasPlayServices().then((hasPlayService) => {
+                    if (hasPlayService) {
+                        GoogleSignin.signIn().then((userInfo) => {
+                                console.log(JSON.stringify(userInfo))
+                        }).catch((e) => {
+                        console.log("ERROR IS: " + JSON.stringify(e));
+                        })
+                            }
+                    }).catch((e) => {
+                        console.log("ERROR IS: " + JSON.stringify(e));
+                    })
+                    }}            
+                    >
+                    <Image source= {require('../assets/images/google.png')} style={styles.logo}/>
+                </TouchableOpacity>
+            </View>
+        
+        {/* facebook */}
+            <View>
+                <TouchableOpacity style={styles.klikLogo}
+                    onPress={() => {}}>
+                    <Image source= {require('../assets/images/facebook.png')} style={styles.logo}/>           
+                </TouchableOpacity>
+            </View>
+        {/* twitter */}
+            <View>
+                <TouchableOpacity style={styles.klikLogo}
+                    onPress={() => {}}>
+                    <Image source= {require('../assets/images/twitter.png')} style={styles.logo}/>           
+                </TouchableOpacity>
+            </View>
+        </View>
+
         {/* Button Belum punya akun */}
-            <View style={styles.loginWrapper}>
+             <View style={styles.loginWrapper}>
                 <Text style={styles.txtDaftar}>Belum memiliki akun? Daftar</Text>
                 <TouchableOpacity onPress={() => navigation.navigate('Register')}>
                     <Text style={styles.txtRegis}> disini</Text>
                 </TouchableOpacity>
             </View>
-        
-        {/*Button Google*/}
-        <Button style={styles.btnGoogle} title={'Sign in with Google'} onPress={() =>  {
-        GoogleSignin.configure({
-                  androidClientId: '1010936747062-hjm04813igf09gckm21k9ga9g89boqc8.apps.googleusercontent.com',
-             //   iosClientId: 'ADD_YOUR_iOS_CLIENT_ID_HERE',
-            });
-        GoogleSignin.hasPlayServices().then((hasPlayService) => {
-                if (hasPlayService) {
-                    GoogleSignin.signIn().then((userInfo) => {
-                            console.log(JSON.stringify(userInfo))
-                    }).catch((e) => {
-                    console.log("ERROR IS: " + JSON.stringify(e));
-                    })
-                }
-        }).catch((e) => {
-            console.log("ERROR IS: " + JSON.stringify(e));
-        })
-        }} />
-
 
         </View>
     )
@@ -181,7 +215,7 @@ const styles = StyleSheet.create({
     },
     txtButton:{
         textAlign: 'center',
-        fontsize: 18,
+        fontSize: 18,
         fontFamily: 'Quicksand-Bold',
     },
     txtRegis:{
@@ -190,16 +224,50 @@ const styles = StyleSheet.create({
         fontSize: 16,
     },
     txtDaftar:{
-        // marginTop: 16,
+        marginBottom: 16,
         marginLeft: 22,
         color: colors.bgkurir,
         fontFamily: 'Quicksand-Bold',
         fontSize: 16,
     },
+    txtForgot:{
+        color: colors.button,
+        fontWeight: 500,
+        paddingHorizontal:100,
+        fontFamily:'Quicksand-Bold',
+    },
     loginWrapper:{
         flexDirection:'row',
         marginTop:10,
         marginBottom: 16
+    },
+    logo:{
+        height:24,
+        width:24,
+    },
+    klikLogo:{
+        borderColor: '#ddd',
+        borderWidth: 2,
+        borderRadius: 10,
+        paddingHorizontal: 30,
+        paddingVertical: 10,
+    },
+    logoWrapper:{
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        marginLeft:15,
+        marginTop: 20,
+        marginRight:10,
+        paddingHorizontal:15,
+        // marginBottom: 30,
+        // marginTop: 16,
+    },
+    txtAlt:{
+        textAlign: 'center',
+        fontFamily: 'Quicksand-Bold',
+        color : colors.bgkurir,
+        fontSize:14,
+        marginTop: 16,
     }
         
 });

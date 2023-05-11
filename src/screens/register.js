@@ -202,8 +202,8 @@ const styles = StyleSheet.create({
         left:22,
         height:20,
         fontFamily: 'Quicksand-Medium',
-        fontwweight:500,
-        fontsize : 16,
+        fontWeight:500,
+        fontSize : 16,
         color: colors.bgkurir,
     },
     btnMasuk:{
@@ -216,7 +216,7 @@ const styles = StyleSheet.create({
     
     txtButton:{
         textAlign: 'center',
-        fontsize: 18,
+        fontSize: 18,
         fontFamily: 'Quicksand-Bold',
     },
     checkboxContainer:{
