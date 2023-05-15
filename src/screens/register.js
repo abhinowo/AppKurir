@@ -6,8 +6,11 @@ import { useSelector, useEffect, useDispatch, useState } from 'react';
 import {setForm} from '../redux'
 
 const Register = ({navigation}) =>{
+    const [nama,setNama] = useState('');
     const [email,setEmail] = useState('');
+    const [nohp,setNohp] = useState('');
     const [password,setPassword] = useState('');
+    const [confirmpassword,confirmPassword] = useState('');
 
 
     const validateEmail = (text) => {
@@ -24,13 +27,21 @@ const Register = ({navigation}) =>{
     }
 
     const handleRegistration = () => {
-        if (email.trim()==='' ||password.trim()===''){
-            alert('Please enter a valid email or password')
+            if(email.trim==='' || password.trim()===''){
+        // if (nama.trim()===''|| email.trim()==='' || nohp.trim()===''|| password.trim()==='' || confirmpassword.trim()===''){
+            alert('Please fill all the field')
+            return
+        }
+        else if(password !== confirmpassword){
+            alert('Password and Confirm Password is not same')
             return
         }
         else{
             navigation.navigate('Login')
         }
+    }
+
+    const validateInput = e => {
     }
 
     return(
@@ -51,7 +62,6 @@ const Register = ({navigation}) =>{
                 <Image source= {require('../assets/images/Line.png')} style={styles.backgroundph}/>
                 <TextInput style={styles.inputUser} 
                     placeholder="Masukan nama lengkap mu"
-                    // value = {registerReducer.username}
                     placeholderTextColor={colors.textLight}/>
             </View>
             <Text style={styles.txtTitle}>Alamat Email</Text>
@@ -60,8 +70,11 @@ const Register = ({navigation}) =>{
                 <Image source= {require('../assets/images/Line.png')} style={styles.backgroundph}/>
                 <TextInput style={styles.inputPass} 
                     placeholder="Masukan alamat email mu"
-                    onChangeText={text=>validateEmail(text)}
-                    value = {email}
+                    autoComplete='email'
+                    keyboardType= 'email-address'
+                    textContentType='emailAddress'
+                    onChangeText={text=>setEmail(text)}
+                    // value = {email}
                     placeholderTextColor={colors.textLight}/>
             </View>
             <Text style={styles.txtTitle}>Nomor Handphone</Text>
@@ -70,7 +83,8 @@ const Register = ({navigation}) =>{
                 <Image source= {require('../assets/images/Line.png')} style={styles.backgroundph}/>
                 <TextInput style={styles.inputPass} 
                     placeholder="Masukan nomor handphone mu" 
-                    // value = {registerReducer.noHp}
+                    keyboardType='decimal-pad'
+                    maxLength={12}
                     placeholderTextColor={colors.textLight}/>
             </View>
             <Text style={styles.txtTitle}>Kata Sandi</Text>
@@ -79,9 +93,9 @@ const Register = ({navigation}) =>{
                 <Image source= {require('../assets/images/Line.png')} style={styles.backgroundph}/>
                 <TextInput style={styles.inputPass} 
                     placeholder="Masukan password mu" 
-                    autoComplete='email'
                     onChangeText={text=>setPassword(text)}
                     placeholderTextColor={colors.textLight}
+                    // onBlur={validateInput}
                     secureTextEntry={true}
                     />
             </View>
@@ -91,7 +105,8 @@ const Register = ({navigation}) =>{
                 <Image source= {require('../assets/images/Line.png')} style={styles.backgroundph}/>
                 <TextInput style={styles.inputPass} 
                     placeholder="Ulangi password mu" 
-                    // value = {registerReducer.rePass}
+                    onChangeText={text=>confirmPassword(text)}
+                    // onBlur={validateInput}
                     placeholderTextColor={colors.textLight}
                     secureTextEntry={true}
                     />

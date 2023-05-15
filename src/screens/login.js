@@ -1,5 +1,5 @@
 import * as React from 'react';
-import {View,Text,TextInput,StyleSheet,SafeAreaView,Image,Button,TouchableOpacity,StatusBar} from 'react-native';
+import {View,Text,TextInput,StyleSheet,SafeAreaView,Image,Button,TouchableOpacity,StatusBar,ScrollView, RefreshControl} from 'react-native';
 import colors from '../assets/colors/colors';
 import {
     GoogleSignin,
@@ -8,10 +8,6 @@ import {
 import {useState,useEffect} from 'react';
 import {useSelector} from 'react-redux'
 import { AuthContext } from '../context/AuthContext';
-
-// import GoogleSVG from '../assets/images/google.svg';
-// import FacebookSVG from '../assets/images/facebook.svg';
-// import TwitterSVG from '../assets/images/twitter.svg';
 
 
 const Login = ({navigation}) =>{
@@ -26,14 +22,14 @@ const Login = ({navigation}) =>{
         else{
             navigation.navigate('DataKurir')
         }
-
+    }
         const [refreshing, setRefreshing] = React.useState(false);
 
         const onRefresh = React.useCallback(() => {
         setRefreshing(true);
         wait(2000).then(() => setRefreshing(false));
         }, []);
-    }
+ 
     return(
         <View style={styles.container}>
         <StatusBar backgroundColor={colors.textUltraDark} barStyle="light-content"/>

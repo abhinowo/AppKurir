@@ -63,7 +63,7 @@ const styles = StyleSheet.create({
         paddingHorizontal:22,
         fontFamily: 'Quicksand-Medium',
         fontWeight:500,
-        fontsize:16,
+        fontSize:16,
         color: colors.textLight,
     },
     inputWrapper: {

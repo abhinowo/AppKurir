@@ -6,9 +6,9 @@ import {createSelector} from 'reselect'
 
 // import { Divider } from '@rneui/themed';
 
-const wait = (timeout) => {
-    return new Promise(resolve => setTimeout(resolve, timeout));
-  }
+// const wait = (timeout) => {
+//     return new Promise(resolve => setTimeout(resolve, timeout));
+//   }
 
 const ListKurir =[
     {
