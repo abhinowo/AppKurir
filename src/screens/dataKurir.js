@@ -1,10 +1,14 @@
 import * as React from 'react';
-import {View,Text,StyleSheet,Button,FlatList,StatusBar, TouchableOpacity} from 'react-native';
+import {View,Text,StyleSheet,Button,FlatList,StatusBar, TouchableOpacity, ScrollView, RefreshControl} from 'react-native';
 import colors from '../assets/colors/colors';
 import {useSelector} from 'react-redux'
 import {createSelector} from 'reselect'
 
 // import { Divider } from '@rneui/themed';
+
+const wait = (timeout) => {
+    return new Promise(resolve => setTimeout(resolve, timeout));
+  }
 
 const ListKurir =[
     {
@@ -58,17 +62,16 @@ const ListKurir =[
     }
 ]
 
-//editing listkurir with redux
-// const ListKurir = useSelector(state => state.listKurir)
-// (state => state.listKurir)
-// const Item = ({item, onPress, style}) => (
-//     <TouchableOpacity onPress={onPress} style={[styles.item, style]}>
-//         <Text style={styles.title}>{item.title}</Text>
-//     </TouchableOpacity>
-// );
-
 
 const DataKurir =({navigation}) =>{
+    const [refreshing, setRefreshing] = React.useState(false);
+
+    const onRefresh = React.useCallback(() => {
+    setRefreshing(true);
+    wait(2000).then(() => setRefreshing(false));
+    }, []);
+    
+
     return(
         <View style={styles.container}>
         <StatusBar backgroundColor={colors.textUltraDark} barStyle="light-content"/>

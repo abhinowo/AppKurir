@@ -15,8 +15,25 @@ import { AuthContext } from '../context/AuthContext';
 
 
 const Login = ({navigation}) =>{
-    // const {login} = useContext{AuthContext}
+    const [email,setEmail] = useState('');
+    const [password,setPassword] = useState('');
 
+    const handleLogin =() => {
+        if(!email || !password){
+        alert('Please fill all the field')
+        return
+        }
+        else{
+            navigation.navigate('DataKurir')
+        }
+
+        const [refreshing, setRefreshing] = React.useState(false);
+
+        const onRefresh = React.useCallback(() => {
+        setRefreshing(true);
+        wait(2000).then(() => setRefreshing(false));
+        }, []);
+    }
     return(
         <View style={styles.container}>
         <StatusBar backgroundColor={colors.textUltraDark} barStyle="light-content"/>
@@ -33,8 +50,8 @@ const Login = ({navigation}) =>{
                 <Image source= {require('../assets/images/username/username.png')} style={styles.backIconUser}/>
                 <Image source= {require('../assets/images/Line.png')} style={styles.backgroundph}/>
                 <TextInput style={styles.inputUser} 
-                    // value = {email}
-                    // onChangeText={text=>setEmail(text)}
+                    value = {email}
+                    onChangeText={text=>setEmail(text)}
                     placeholder="Masukan Kode Kurir" 
                     placeholderTextColor={colors.textLight}/>
             </View>
@@ -43,8 +60,9 @@ const Login = ({navigation}) =>{
                 <Image source= {require('../assets/images/password/password.png')} style={styles.backIconPass}/>
                 <Image source= {require('../assets/images/Line.png')} style={styles.backgroundph}/>
                 <TextInput style={styles.inputPass} 
-                    // value = {password}
-                    // onChangeText={text=>setPassword(text)}
+                    value = {password}
+                    onChangeText={text=>setPassword(text)}
+                    secureTextEntry={true}
                     placeholder="Masukan Kata Sandi" 
                     placeholderTextColor={colors.textLight}/>
             <TouchableOpacity onPress={() => navigation.navigate('Register')}>
@@ -53,7 +71,8 @@ const Login = ({navigation}) =>{
             </View>
         
         {/*Button*/}
-            <TouchableOpacity style={styles.btnMasuk} onPress={() => navigation.navigate('DataKurir')}>
+            <TouchableOpacity style={styles.btnMasuk} onPress={handleLogin} >
+            {/* <TouchableOpacity style={styles.btnMasuk} onPress={() => navigation.navigate('DataKurir')}> */}
                 <Text style={styles.txtButton}> Masuk</Text>
             </TouchableOpacity>
 
@@ -68,6 +87,7 @@ const Login = ({navigation}) =>{
                 <TouchableOpacity style={styles.klikLogo}
                     onPress={() => {
                     GoogleSignin.configure({
+                    //terbaru-androidClientId: '588263491172-okllkk9uocmsetqsmvvt8otm0g6167ij.apps.googleusercontent.com',
                     androidClientId: '1010936747062-hjm04813igf09gckm21k9ga9g89boqc8.apps.googleusercontent.com',
                      //   iosClientId: 'ADD_YOUR_iOS_CLIENT_ID_HERE',
                 });
@@ -95,6 +115,7 @@ const Login = ({navigation}) =>{
                     <Image source= {require('../assets/images/facebook.png')} style={styles.logo}/>           
                 </TouchableOpacity>
             </View>
+
         {/* twitter */}
             <View>
                 <TouchableOpacity style={styles.klikLogo}

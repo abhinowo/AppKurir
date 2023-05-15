@@ -2,32 +2,36 @@ import * as React from 'react';
 import {View,Text,TextInput,StyleSheet,SafeAreaView,Image,Button,TouchableOpacity,StatusBar} from 'react-native';
 import colors from '../assets/colors/colors';
 
-import { useSelector, useEffect, useDispatch } from 'react-redux';
+import { useSelector, useEffect, useDispatch, useState } from 'react';
 import {setForm} from '../redux'
 
 const Register = ({navigation}) =>{
-    // const registerReducer = useSelector(state=>state.registerReducer)
-    // const dispatch = useDispatch();
+    const [email,setEmail] = useState('');
+    const [password,setPassword] = useState('');
 
-    // const [form, setForm] = useState({
-    //     namaLengkap: '',
-    //     email:'',
-    //     noHp:'',
-    //     pass:'',
-    //     rePass:'',
-    // })
 
-    // useEffect(() => {
-    //     console.log('reducer: ', registerReducer);
-    // }, [registerReducer])
+    const validateEmail = (text) => {
+        let reg = /^[a-zA-Z0-9]+@(?:[a-zA-Z0-9]+\.)+[A-Za-z]+$/;
+        if (reg.test(text) === false) {
+            alert("Email is Not Correct");
+            this.setEmail({email:text})
+            return false;
+        }
+        else {
+            this.setEmail({email:text})
+            alert("Email is Correct");
+        }
+    }
 
-    // const sendData = () => {
-    //     console.log('data yang dikirim', registerReducer.form);
-    // };
-
-    // const onInputChange = (value,input) => {
-    //     dispatch(setForm(inputType, value));
-    // };
+    const handleRegistration = () => {
+        if (email.trim()==='' ||password.trim()===''){
+            alert('Please enter a valid email or password')
+            return
+        }
+        else{
+            navigation.navigate('Login')
+        }
+    }
 
     return(
         <View style={styles.container}>
@@ -56,7 +60,8 @@ const Register = ({navigation}) =>{
                 <Image source= {require('../assets/images/Line.png')} style={styles.backgroundph}/>
                 <TextInput style={styles.inputPass} 
                     placeholder="Masukan alamat email mu"
-                    // value = {registerReducer.email}
+                    onChangeText={text=>validateEmail(text)}
+                    value = {email}
                     placeholderTextColor={colors.textLight}/>
             </View>
             <Text style={styles.txtTitle}>Nomor Handphone</Text>
@@ -74,8 +79,11 @@ const Register = ({navigation}) =>{
                 <Image source= {require('../assets/images/Line.png')} style={styles.backgroundph}/>
                 <TextInput style={styles.inputPass} 
                     placeholder="Masukan password mu" 
-                    // value = {registerReducer.pass}
-                    placeholderTextColor={colors.textLight}/>
+                    autoComplete='email'
+                    onChangeText={text=>setPassword(text)}
+                    placeholderTextColor={colors.textLight}
+                    secureTextEntry={true}
+                    />
             </View>
             <Text style={styles.txtTitle}>Ulangi Kata Sandi</Text>
             <View style={styles.inputWrapper}> 
@@ -83,21 +91,15 @@ const Register = ({navigation}) =>{
                 <Image source= {require('../assets/images/Line.png')} style={styles.backgroundph}/>
                 <TextInput style={styles.inputPass} 
                     placeholder="Ulangi password mu" 
-                    // vallue = {registerReducer.rePass}
-                    placeholderTextColor={colors.textLight}/>
+                    // value = {registerReducer.rePass}
+                    placeholderTextColor={colors.textLight}
+                    secureTextEntry={true}
+                    />
             </View>
-            {/* <View style={styles.checkboxContainer}>
-                <CheckBox 
-                    value={isSelected}
-                    onValueChange={setSelection}
-                    style={styles.checkbox}>
-                </CheckBox>
-            </View> */}
-
             <Text style={styles.inputSyarat}> Saya menyetujui syarat dan ketentuan yang berlaku </Text>
         
         {/*Button*/}
-            <TouchableOpacity style={styles.btnMasuk} onPress={() => navigation.navigate('DataKurir')}>
+            <TouchableOpacity style={styles.btnMasuk} onPress={handleRegistration}>
                 <Text style={styles.txtButton}> Masuk</Text>
             </TouchableOpacity>
             
