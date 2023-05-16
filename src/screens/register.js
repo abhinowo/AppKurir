@@ -4,6 +4,7 @@ import colors from '../assets/colors/colors';
 
 import { useSelector, useEffect, useDispatch, useState } from 'react';
 import {setForm} from '../redux'
+import {useNavigation} from '@react-navigation/native'
 
 const Register = ({navigation}) =>{
     const [nama,setNama] = useState('');
@@ -11,38 +12,65 @@ const Register = ({navigation}) =>{
     const [nohp,setNohp] = useState('');
     const [password,setPassword] = useState('');
     const [confirmpassword,confirmPassword] = useState('');
+    
+    const {navigate} = useNavigation();
+ 
+   let reg = /^[a-zA-Z0-9]+@(?:[a-zA-Z0-9]+\.)+[A-Za-z]+$/;
 
 
-    const validateEmail = (text) => {
-        let reg = /^[a-zA-Z0-9]+@(?:[a-zA-Z0-9]+\.)+[A-Za-z]+$/;
-        if (reg.test(text) === false) {
-            alert("Email is Not Correct");
-            this.setEmail({email:text})
-            return false;
-        }
-        else {
-            this.setEmail({email:text})
-            alert("Email is Correct");
-        }
-    }
+    // const validateEmail = () => {
+    //     let reg = /^[a-zA-Z0-9]+@(?:[a-zA-Z0-9]+\.)+[A-Za-z]+$/;
+    //     if (reg.test(email) === false) {
+    //         alert("Please enter a valid email address");
+    //         // this.setEmail({email:text})
+    //         return false;
+    //     }
+    //     else {
+    //         // this.setEmail({email:text})
+    //         alert("Email is Correct");
+    //     }
+    // }
 
     const handleRegistration = () => {
-            if(email.trim==='' || password.trim()===''){
-        // if (nama.trim()===''|| email.trim()==='' || nohp.trim()===''|| password.trim()==='' || confirmpassword.trim()===''){
+            if (nama.trim()===''|| email.trim()==='' || nohp.trim()===''|| password.trim()==='' || confirmpassword.trim()===''){
             alert('Please fill all the field')
+            return
+        }
+        else if(nama.length < 3){
+            alert('Nama harus lebih dari 3 karakter')
+            return
+        }
+        else if(reg.test(email) === false){
+            alert("Please enter a valid email address");
+            // this.setEmail({email:text})
+            return false;
+        }
+        else if(nohp.length<10){
+            alert('please enter a valid phone number')
             return
         }
         else if(password !== confirmpassword){
             alert('Password and Confirm Password is not same')
             return
         }
-        else{
-            navigation.navigate('Login')
+        else{setTimeout(() => {
+            navigate('Login'); //this.props.navigation.navigate('Login')
+        }, 2000);
+            alert ('Registration Success')
+            // navigation.navigate('Login')
         }
     }
 
     const validateInput = e => {
     }
+
+    const handleEmailChange = (event) => {
+        setEmail(event.target.value);
+      }
+
+    // useEffect(() => {
+    //     handleRegistration()
+    // }, [email])
 
     return(
         <View style={styles.container}>
@@ -61,6 +89,7 @@ const Register = ({navigation}) =>{
                 source= {require('../assets/images/username/username.png')} style={styles.backIconUser}/>
                 <Image source= {require('../assets/images/Line.png')} style={styles.backgroundph}/>
                 <TextInput style={styles.inputUser} 
+                    onChangeText={text=>setNama(text)}
                     placeholder="Masukan nama lengkap mu"
                     placeholderTextColor={colors.textLight}/>
             </View>
@@ -70,11 +99,10 @@ const Register = ({navigation}) =>{
                 <Image source= {require('../assets/images/Line.png')} style={styles.backgroundph}/>
                 <TextInput style={styles.inputPass} 
                     placeholder="Masukan alamat email mu"
-                    autoComplete='email'
                     keyboardType= 'email-address'
                     textContentType='emailAddress'
                     onChangeText={text=>setEmail(text)}
-                    // value = {email}
+                    onChange={handleEmailChange}
                     placeholderTextColor={colors.textLight}/>
             </View>
             <Text style={styles.txtTitle}>Nomor Handphone</Text>
@@ -85,6 +113,7 @@ const Register = ({navigation}) =>{
                     placeholder="Masukan nomor handphone mu" 
                     keyboardType='decimal-pad'
                     maxLength={12}
+                    onChangeText={text=>setNohp(text)}
                     placeholderTextColor={colors.textLight}/>
             </View>
             <Text style={styles.txtTitle}>Kata Sandi</Text>
