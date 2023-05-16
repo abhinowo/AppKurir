@@ -1,6 +1,6 @@
 # AppKurir
 
-#Installation 
+# Installation 
 
 f you want to test the app on a simulator running locally, follow these instructions:
 1. Download the repository into your PC.
