@@ -1,85 +1,55 @@
 import * as React from 'react';
-import {View,Text,StyleSheet,Button,FlatList,StatusBar, TouchableOpacity, ScrollView, RefreshControl} from 'react-native';
+import {View,Text,StyleSheet,Button,FlatList,StatusBar, TouchableOpacity, ScrollView, RefreshControl, KeyboardAvoidingView, Platform} from 'react-native';
 import colors from '../assets/colors/colors';
 import {useSelector} from 'react-redux'
 import {createSelector} from 'reselect'
+import { MMKV, useMMKVStorage } from 'react-native-mmkv';
 
-// import { Divider } from '@rneui/themed';
+import Storage from '../mmkv/storage'
 
 // const wait = (timeout) => {
 //     return new Promise(resolve => setTimeout(resolve, timeout));
 //   }
 
-const ListKurir =[
-    {
-    "id" : "1",
-    "KodeKurir": 'JBG001',
-    "nama" : 'Suryana',
-    "Alamat" : "Jl. Tanah Abang 3",
-    "KodePosko" : 'BKS01',
-    },
-    {
-    "id" : "2",
-    "KodeKurir": 'JBG001',
-    "nama" : 'Sutarno',
-    "Alamat" : "Jl. Tanah Abang 3",
-    "KodePosko" : 'BKS01',
-    },
-    {
-    "id" : "3",
-    "KodeKurir": 'JBG001',
-    "nama" : 'John',
-    "Alamat" : "Jl. Tanah Abang 3",
-    "KodePosko" : 'BKS01',
-    },
-    {
-    "id" : "4",
-    "KodeKurir": 'JBG001',
-    "nama" : 'Jono',
-    "Alamat" : "Jl. Tanah Abang 3",
-    "KodePosko" : 'BKS01',
-    },
-    {
-    "id" : "5",
-    "KodeKurir": 'JBG001',
-    "nama" : 'Markonah',
-    "Alamat" : "Jl. Tanah Abang 3",
-    "KodePosko" : 'BKS01',
-    },
-    {
-    "id" : "6",
-    "KodeKurir": 'JBG001',
-    "nama" : 'Tugiono',
-    "Alamat" : "Jl. Tanah Abang 3",
-    "KodePosko" : 'BKS01',
-    },
-    {
-    "id" : "7",
-    "KodeKurir": 'JBG001',
-    "nama" : 'Mamang',
-    "Alamat" : "Jl. Tanah Abang 3",
-    "KodePosko" : 'BKS01',
-    }
-]
 
+// const storage = new ({
+//     KodeKurir : 'JBG001',
+//     nama : 'Suryana',
+//     Alamat : 'Jl. Tanah Abang 3',
+//     KodePosko : 'BKS01',
+//     encryptionKey : 'password',
+// });
 
+const List =() => {
+    Storage.set('KodeKurir','JBG001');
+    Storage.set('nama','Suryana');
+    Storage.set('Alamat','Jl. Tanah Abang 3');
+    Storage.set('KodePosko','BKS01');
+
+    // const[id,setID] = storage.set('id',storage,'1');
+    // const[KodeKurir,setKodeKurir] = storage.set('KodeKurir',storage,'JBG001');
+    // const[nama,setNama] = storage.set('nama',storage,'Suryana');
+    // const[Alamat,setAlamat] = storage.set('Alamat',storage,'Jl. Tanah Abang 3');
+    // const[KodePosko,setKodePosko] = storage.set('KodePosko',storage,'BKS01');
+}
 const DataKurir =({navigation}) =>{
     const [refreshing, setRefreshing] = React.useState(false);
-
     const onRefresh = React.useCallback(() => {
     setRefreshing(true);
     wait(2000).then(() => setRefreshing(false));
     }, []);
-    
 
     return(
         <View style={styles.container}>
+        <KeyboardAvoidingView
+      behavior={Platform.OS === 'Android' ? 'padding' : 'height'}
+      style={styles.keyboardcontainer}>
         <StatusBar backgroundColor={colors.textUltraDark} barStyle="light-content"/>
             <View style={styles.hd}>
                 <Text style={styles.title}> KURIR APPS </Text>
              </View>
         <FlatList
-        data={ListKurir}
+        data={List}
         KeyExtractor={item => item.id}
         renderItem={({item}) =>(
         <TouchableOpacity style={styles.btnEdit} onPress={() => navigation.navigate('EditKurir')}>
@@ -106,7 +76,7 @@ const DataKurir =({navigation}) =>{
                 <TouchableOpacity style={styles.btnTambah} onPress={() => navigation.navigate('Home')}>
                         <Text style={styles.plus}> + </Text>
                 </TouchableOpacity>
-
+            </KeyboardAvoidingView>
         </View>
     )
 }
@@ -115,6 +85,9 @@ export default DataKurir;
 
 const styles = StyleSheet.create({
     container: {
+        flex:1,
+    },
+    keyboardcontainer:{
         flex:1,
     },
     hd:{
@@ -200,7 +173,6 @@ const styles = StyleSheet.create({
     btnTambah:{
         position:'absolute',
         borderRadius: 50,
-        // padding: 20,
         bottom: 36,
         right: 26,
         height:55,
@@ -209,10 +181,10 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
     },
-    // btnEdit:{
-    //     paddingBottom:16,
-    //     // paddingTop:16,
-    // },
+    btnEdit:{
+        // paddingBottom:16,
+        // paddingTop:16,
+    },
     plus:{
         fontSize: 30,
         alignItems:'center',

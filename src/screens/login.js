@@ -1,5 +1,5 @@
 import * as React from 'react';
-import {View,Text,TextInput,StyleSheet,SafeAreaView,Image,Button,TouchableOpacity,StatusBar,ScrollView, RefreshControl} from 'react-native';
+import {View,Text,TextInput,StyleSheet,SafeAreaView,Image,Button,TouchableOpacity,StatusBar, ScrollView, RefreshControl, KeyboardAvoidingView} from 'react-native';
 import colors from '../assets/colors/colors';
 import {
     GoogleSignin,
@@ -7,8 +7,10 @@ import {
 } from '@react-native-google-signin/google-signin';
 import {useState,useEffect} from 'react';
 import {useSelector} from 'react-redux'
-import { AuthContext } from '../context/AuthContext';
+import{signInWithEmailAndPassword} from 'firebase/auth'
+import {auth} from '../database/firebase'
 
+// import auth from '@react-native-firebase/auth';
 
 const Login = ({navigation}) =>{
     const [email,setEmail] = useState('');
@@ -20,18 +22,32 @@ const Login = ({navigation}) =>{
         return
         }
         else{
+            signInWithEmailAndPassword(auth, email, password)
+            .then((user) => {
+                console.log('User account signed in!');
             navigation.navigate('DataKurir')
+            })
+            .catch(error => {
+                if (error.code === 'auth/email-already-in-use') {
+                console.log('That email address is already in use!');
+                }
+                if (error.code === 'auth/invalid-email') {
+                console.log('That email address is invalid!');
+                }
+                console.error(error, 'error');
+            })
         }
     }
-        const [refreshing, setRefreshing] = React.useState(false);
 
-        const onRefresh = React.useCallback(() => {
-        setRefreshing(true);
-        wait(2000).then(() => setRefreshing(false));
-        }, []);
+    const [refreshing, setRefreshing] = React.useState(false);
+    const onRefresh = React.useCallback(() => {
+    setRefreshing(true);
+    wait(2000).then(() => setRefreshing(false));
+    }, []);
  
     return(
         <View style={styles.container}>
+        <KeyboardAvoidingView>
         <StatusBar backgroundColor={colors.textUltraDark} barStyle="light-content"/>
         
         {/*Title*/}
@@ -128,7 +144,7 @@ const Login = ({navigation}) =>{
                     <Text style={styles.txtRegis}> disini</Text>
                 </TouchableOpacity>
             </View>
-
+        </KeyboardAvoidingView>           
         </View>
     )
 }

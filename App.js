@@ -14,7 +14,7 @@ import Home from './src/screens/home';
 import Register from './src/screens/register';
 import DataKurir from './src/screens/dataKurir';
 import EditKurir from './src/screens/editKurir';
-
+import Splash from './src/screens/splash';
 
 const Stack = createNativeStackNavigator();
 
@@ -29,7 +29,8 @@ const App = () => {
                         headerShown: false
                     }}>
                     <Stack.Screen name="Login" component={Login}/>
-                    <Stack.Screen name= "Register" component={Register}></Stack.Screen>
+                    <Stack.Screen name="Splash" component={Splash}/>
+                    <Stack.Screen name= "Register" component={Register}/>
                     <Stack.Screen name="Home" component={Home}/>
                     <Stack.Screen name="DataKurir" component={DataKurir}/>
                     <Stack.Screen name='EditKurir' component={EditKurir}/> 
