@@ -8,6 +8,7 @@ import {useNavigation} from '@react-navigation/native'
 
 // import firestore
 import{getFirestore, query, getDocs, collection, where, addDoc,} from "firebase/firestore";
+import { doc, setDoc,updateDoc } from "firebase/firestore"; 
 
 // import firebase 
 import {initializeApp} from 'firebase/app';
@@ -15,17 +16,39 @@ import {getAuth} from 'firebase/auth';
 import firebase from '../database/firebase'
 import {auth,db} from '../database/firebase'
 
+
 // import auth from '@react-native-firebase/auth';
 import {createUserWithEmailAndPassword} from 'firebase/auth'
 
+
 const Register = ({navigation}) =>{
 
+    const[id,setID] = useState('');
     const [nama,setNama] = useState('');
     const [email,setEmail] = useState('');
     const [nohp,setNohp] = useState('');
     const [password,setPassword] = useState('');
     const [confirmpassword,confirmPassword] = useState('');
-    
+
+// this code to add data to firestore
+    function add(){
+        addDoc(collection(db, "users"), {
+            nohp: nohp,
+            email: email,
+            // idKurir: idKurir,
+            password: password,
+            confirmpassword: confirmpassword,
+            nama: nama,
+            id:id,
+        }).then(() => {
+            console.log("data submitted")
+            alert ('Registration Success')
+            navigation.navigate('Login')
+        }).catch((error) => {
+            console.log(error);
+        })
+    }
+
     const {navigate} = useNavigation();
  
     let reg = /^[a-zA-Z0-9]+@(?:[a-zA-Z0-9]+\.)+[A-Za-z]+$/;
@@ -53,10 +76,6 @@ const Register = ({navigation}) =>{
         }
         else{
             createUserWithEmailAndPassword(auth, email,password)
-            // .then((res) => {
-            //     res.user.UpdateProfile({
-            //         displayName: nama
-            //     })
             setTimeout(() => {
             navigate('Login'); //this.props.navigation.navigate('Login')
         }, 2000);
@@ -87,8 +106,6 @@ const Register = ({navigation}) =>{
                 <Image source= {require('../assets/images/Line.png')} style={styles.backgroundph}/>
                 <TextInput style={styles.inputUser} 
                     onChangeText={text=>setNama(text)}
-                    // value={this.state.name}
-                    // onChangeText={(val) => this.updateInputVal(val, 'name')}
                     onChangeText={text=>setNama(text)}
                     placeholder="Masukan nama lengkap mu"
                     placeholderTextColor={colors.textLight}/>
@@ -101,8 +118,6 @@ const Register = ({navigation}) =>{
                     placeholder="Masukan alamat email mu"
                     keyboardType= 'email-address'
                     textContentType='emailAddress'
-                    // value = {this.state.email}
-                    // onChangeText={(val) => this.updateInputVal(val, 'email')}
                     onChangeText={text=>setEmail(text)}
                     onChange={handleEmailChange}
                     placeholderTextColor={colors.textLight}/>
@@ -115,8 +130,6 @@ const Register = ({navigation}) =>{
                     placeholder="Masukan nomor handphone mu" 
                     keyboardType='decimal-pad'
                     maxLength={12}
-                    // value = {this.state.nohp}
-                    // onChangeText={(val) => this.updateInputVal(val, 'nohp')}
                     onChangeText={text=>setNohp(text)}
                     placeholderTextColor={colors.textLight}/>
             </View>
@@ -127,10 +140,7 @@ const Register = ({navigation}) =>{
                 <TextInput style={styles.inputPass} 
                     placeholder="Masukan password mu" 
                     placeholderTextColor={colors.textLight}
-                    // value = {this.state.password}
-                    // onChangeText={(val) => this.updateInputVal(val, 'password')}
                     onChangeText={text=>setPassword(text)}
-                    // onBlur={validateInput}
                     secureTextEntry={true}
                     />
             </View>
@@ -140,10 +150,7 @@ const Register = ({navigation}) =>{
                 <Image source= {require('../assets/images/Line.png')} style={styles.backgroundph}/>
                 <TextInput style={styles.inputPass} 
                     placeholder="Ulangi password mu" 
-                    // value = {this.state.confirmpassword}
-                    // onChangeText={(val) => this.updateInputVal(val, 'confirmpassword')}
                     onChangeText={text=>confirmPassword(text)}
-                    // onBlur={validateInput}
                     placeholderTextColor={colors.textLight}
                     secureTextEntry={true}
                     />
@@ -151,7 +158,8 @@ const Register = ({navigation}) =>{
             <Text style={styles.inputSyarat}> Saya menyetujui syarat dan ketentuan yang berlaku </Text>
         
         {/*Button*/}
-            <TouchableOpacity style={styles.btnMasuk} onPress={handleRegistration}>
+        {/* <TouchableOpacity style={styles.btnMasuk} onPress={handlreRegistration} > */}
+            <TouchableOpacity style={styles.btnMasuk} onPress={add} >
                 <Text style={styles.txtButton}> Masuk</Text>
             </TouchableOpacity>
             
@@ -216,16 +224,12 @@ const styles = StyleSheet.create({
         height:20,
     },
     inputUser:{
-        // marginTop:22,
-        // paddingHorizontal:78,
         marginLeft:36,
         color: colors.textUltraDark,
         fontFamily: 'Quicksand-Bold',
         fontSize: 12,
     },
     inputPass:{
-        // marginTop:22,
-        // paddingHorizontal:78,
         marginLeft:36,
         color: colors.textUltraDark,
         fontFamily: 'Quicksand-Bold',
@@ -278,7 +282,6 @@ const styles = StyleSheet.create({
         marginBottom: 20,
     },
     txtDaftar:{
-        // marginTop: 16,
         marginLeft: 22,
         color: colors.bgkurir,
         fontFamily: 'Quicksand-Bold',

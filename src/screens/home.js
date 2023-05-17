@@ -1,31 +1,48 @@
-import * as React from 'react';
-import {View,
-        Text,
-        TextInput,
-        StyleSheet,
-        Image,
-        Button,
-        TouchableOpacity,
-        StatusBar,
-        FlatList} from 'react-native';
-import {useState, useEffect} from 'react';
+// import * as React from 'react';
+import {View,Text,TextInput,StyleSheet,SafeAreaView,Image,Button,TouchableOpacity,StatusBar} from 'react-native';
 import colors from '../assets/colors/colors';
 
-//database
-// import {AsyncStorage} from '@react-native-async-storage/async-storage';
-// import {openDatabase} from 'react-native-sqlite-storage';
-import { MMKVLoader, useMMKVStorage } from 'react-native-mmkv-storage';
+import React, {useSelector, useEffect, useDispatch, useState,Component } from 'react';
+import {setForm} from '../redux'
+import {useNavigation} from '@react-navigation/native'
+
+// import firestore
+import{getFirestore, query, getDocs, collection, where, addDoc,} from "firebase/firestore";
+import { doc, setDoc,updateDoc } from "firebase/firestore"; 
+
+// import firebase 
+import {initializeApp} from 'firebase/app';
+import {getAuth} from 'firebase/auth';
+import firebase from '../database/firebase'
+import {auth,db} from '../database/firebase'
 
 
-// const List =() => {
-//     const[id,setID] = useMMKVStorage('id');
-//     const[KodeKurir,setKodeKurir] = useMMKVStorage('Kodekurir');
-//     const[nama,setNama] = useMMKVStorage('nama');
-//     const[Alamat,setAlamat] = useMMKVStorage('Alamat');
-//     const[KodePosko,setKodePosko] = useMMKVStorage('KodePosko');
-// }
-
+// import auth from '@react-native-firebase/auth';
+import {createUserWithEmailAndPassword} from 'firebase/auth'
 const Home = ({navigation}) =>{
+    const[idKurir,setIDkurir] = useState('');
+    const[nama,setNama] = useState('');
+    const[kodePosko,setKodePosko] = useState('');
+    const[email,setEmail] = useState('');
+    const[alamat,setAlamat] = useState(''); 
+    const {navigate} = useNavigation();
+
+    function add(){
+        addDoc(collection(db, "tambahKurir"), {
+            alamat: alamat,
+            email: email,
+            idKurir: idKurir,
+            kodePosko: kodePosko,
+            nama: nama,
+        }).then(() => {
+            console.log("data submitted")
+            alert('Data berhasil ditambahkan')
+            navigation.navigate('DataKurir')
+        }).catch((error) => {
+            console.log(error);
+        })
+    }
+
     return(
         <View style={styles.container}>
         {/*Header*/}
@@ -39,8 +56,7 @@ const Home = ({navigation}) =>{
                 <TextInput style={styles.inputPh} 
                     placeholder="Masukan ID produk" 
                     placeholderTextColor={colors.textLight}
-                    // value = {ID}
-                    // onChangeText={setID}
+                    onChangeText={text=>setIDkurir(text)}
                     />
             </View>
             <Text style={styles.inputTitle}>Nama Kurir</Text>
@@ -48,8 +64,7 @@ const Home = ({navigation}) =>{
                 <TextInput style={styles.inputPh} 
                     placeholder="Masukan Nama Kurir" 
                     placeholderTextColor={colors.textLight}
-                    // value={nama}
-                    // onChangeText={setNama}
+                    onChangeText={text=>setNama(text)}
                     />
             </View>
             <Text style={styles.inputTitle}>Kode Posko</Text>
@@ -57,17 +72,14 @@ const Home = ({navigation}) =>{
                 <TextInput style={styles.inputPh} 
                     placeholder="Masukan Kode Posko" 
                     placeholderTextColor={colors.textLight}
-                    // value={KodePosko}
-                    // onChangeText={setKodePosko}
-                    />
+                    onChangeText={text=>setKodePosko(text)}                    />
             </View>
             <Text style={styles.inputTitle}>Email</Text>
             <View style={styles.inputWrapper}>
                 <TextInput style={styles.inputPh} 
                     placeholder="Masukan Email yang terdaftar" 
                     placeholderTextColor={colors.textLight}
-                    // value = {email}
-                    // onChangeText={setEmail}    
+                    onChangeText={text=>setEmail(text)}
                     />
             </View>
             <Text style={styles.inputTitle}>Alamat</Text>
@@ -75,12 +87,12 @@ const Home = ({navigation}) =>{
                 <TextInput style={styles.inputPh} 
                     placeholder="Masukan alamat tinggal kurir"
                     placeholderTextColor={colors.textLight}
-                    // value={alamat}
-                    // onChangeText={setAlamat}
+                    onChangeText={text=>setAlamat(text)}
                     />
             </View>
+
         {/*Button*/}
-            <TouchableOpacity style={styles.btnMasuk}>
+            <TouchableOpacity style={styles.btnMasuk} onPress={add} >
                     <Text style={styles.txtButton}> Konfirmasi</Text>
             </TouchableOpacity>
         </View>
@@ -93,7 +105,6 @@ export default Home;
 const styles = StyleSheet.create({
     container: {
         flex:1,
-        // backgroundColor: colors.background,
     },
     titleWrapper: {
         marginTop: 30,
