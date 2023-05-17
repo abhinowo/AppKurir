@@ -10,11 +10,40 @@ import {useSelector} from 'react-redux'
 import{signInWithEmailAndPassword} from 'firebase/auth'
 import {auth} from '../database/firebase'
 
-// import auth from '@react-native-firebase/auth';
+// for google login
+// import { getAuth, signInWithPopup, GoogleAuthProvider,getRedirectResult } from "firebase/auth";
+
 
 const Login = ({navigation}) =>{
     const [email,setEmail] = useState('');
     const [password,setPassword] = useState('');
+    const [user,setUser] = useState();
+    const[initializing,setInitializing] = useState(true);
+
+    GoogleSignin.configure({
+        webClientId: '111000193801-ebfjus5ko52u05mp9nh36u9uiek853l0.apps.googleusercontent.com',
+        // androidClientId : '111000193801-32ratkqht1ac37jgr9shem70tiv0cj1l.apps.googleusercontent.com',
+        offlineAccess: true,
+    });
+
+    const signIn = async () => {
+        try {
+          await GoogleSignin.hasPlayServices();
+          const userInfo = await GoogleSignin.signIn();
+          this.setState({ userInfo });
+        } catch (error) {
+          if (error.code === statusCodes.SIGN_IN_CANCELLED) {
+            // user cancelled the login flow
+          } else if (error.code === statusCodes.IN_PROGRESS) {
+            // operation (e.g. sign in) is in progress already
+          } else if (error.code === statusCodes.PLAY_SERVICES_NOT_AVAILABLE) {
+            // play services not available or outdated
+          } else {
+            navigation.navigate('DataKurir')
+            // some other error happened
+          }
+        }
+      };
 
     const handleLogin =() => {
         if(!email || !password){
@@ -34,7 +63,7 @@ const Login = ({navigation}) =>{
                 if (error.code === 'auth/invalid-email') {
                 console.log('That email address is invalid!');
                 }
-                console.error(error, 'error');
+                console.error(error);
             })
         }
     }
@@ -98,22 +127,30 @@ const Login = ({navigation}) =>{
             <View>
                 <TouchableOpacity style={styles.klikLogo}
                     onPress={() => {
-                    GoogleSignin.configure({
-                    //terbaru-androidClientId: '588263491172-okllkk9uocmsetqsmvvt8otm0g6167ij.apps.googleusercontent.com',
-                    androidClientId: '1010936747062-hjm04813igf09gckm21k9ga9g89boqc8.apps.googleusercontent.com',
-                     //   iosClientId: 'ADD_YOUR_iOS_CLIENT_ID_HERE',
-                });
-                    GoogleSignin.hasPlayServices().then((hasPlayService) => {
-                    if (hasPlayService) {
-                        GoogleSignin.signIn().then((userInfo) => {
-                                console.log(JSON.stringify(userInfo))
-                        }).catch((e) => {
-                        console.log("ERROR IS: " + JSON.stringify(e));
-                        })
-                            }
-                    }).catch((e) => {
-                        console.log("ERROR IS: " + JSON.stringify(e));
-                    })
+                        signIn()
+                        // GoogleSignin.configure({})
+                    // }>
+                    // GoogleSignin.configure({
+                    //     webClientId: '111000193801-ebfjus5ko52u05mp9nh36u9uiek853l0.apps.googleusercontent.com',
+                    //     androidClientId : '111000193801-32ratkqht1ac37jgr9shem70tiv0cj1l.apps.googleusercontent.com',
+                    //     offlineAccess: true,
+                    // //terbaru-androidClientId: '588263491172-okllkk9uocmsetqsmvvt8otm0g6167ij.apps.googleusercontent.com',
+                    // // androidClientId: '1010936747062-hjm04813igf09gckm21k9ga9g89boqc8.apps.googleusercontent.com',
+                    //  //   iosClientId: 'ADD_YOUR_iOS_CLIENT_ID_HERE',
+                    // });
+                    // GoogleSignin.hasPlayServices().then((hasPlayService) => {
+                    // if (hasPlayService) {
+                    //     GoogleSignin.signIn().then((userInfo) => {
+                    //             // console.log(JSON.stringify(userInfo))
+                    //             // console.log("Berhasil masuk")
+                    //             navigation.navigate('DataKurir')
+                    //     }).catch((e) => {
+                    //     console.log("ERROR IS: " + JSON.stringify(e));
+                    //     })
+                    //         }
+                    // }).catch((e) => {
+                    //     console.log("ERROR IS: " + JSON.stringify(e));
+                    // })
                     }}            
                     >
                     <Image source= {require('../assets/images/google.png')} style={styles.logo}/>
