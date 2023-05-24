@@ -1,43 +1,70 @@
-import * as React from 'react';
 import {View,Text,StyleSheet,Button,FlatList,StatusBar, TouchableOpacity, ScrollView, RefreshControl, KeyboardAvoidingView, Platform} from 'react-native';
 import colors from '../assets/colors/colors';
-import {useSelector} from 'react-redux'
+import React, {useSelector, useEffect, useDispatch, useState,Component } from 'react';
 import {createSelector} from 'reselect'
-import { MMKV, useMMKVStorage } from 'react-native-mmkv';
+import{getFirestore, query, getDocs, collection, where, addDoc,doc, setDoc,updateDoc,getDoc} from "firebase/firestore";
+import {app,auth,db} from '../database/firebase'
+import {useNavigation} from '@react-navigation/native'
 
-import Storage from '../mmkv/storage'
-
-// const wait = (timeout) => {
-//     return new Promise(resolve => setTimeout(resolve, timeout));
-//   }
+import firestore from '@react-native-firebase/firestore';
 
 
-// const storage = new ({
-//     KodeKurir : 'JBG001',
-//     nama : 'Suryana',
-//     Alamat : 'Jl. Tanah Abang 3',
-//     KodePosko : 'BKS01',
-//     encryptionKey : 'password',
-// });
 
-const List =() => {
-    Storage.set('KodeKurir','JBG001');
-    Storage.set('nama','Suryana');
-    Storage.set('Alamat','Jl. Tanah Abang 3');
-    Storage.set('KodePosko','BKS01');
-
-    // const[id,setID] = storage.set('id',storage,'1');
-    // const[KodeKurir,setKodeKurir] = storage.set('KodeKurir',storage,'JBG001');
-    // const[nama,setNama] = storage.set('nama',storage,'Suryana');
-    // const[Alamat,setAlamat] = storage.set('Alamat',storage,'Jl. Tanah Abang 3');
-    // const[KodePosko,setKodePosko] = storage.set('KodePosko',storage,'BKS01');
-}
 const DataKurir =({navigation}) =>{
     const [refreshing, setRefreshing] = React.useState(false);
     const onRefresh = React.useCallback(() => {
     setRefreshing(true);
     wait(2000).then(() => setRefreshing(false));
     }, []);
+
+    // const List =() => {
+        const[users,setUsers] = useState([]);
+        const [usersLoading, setUsersLoading] = useState(false);
+
+        const todoRef = collection(db, "tambahKurir")
+        // const todoRef = firestore().collection('tambahKurir');
+
+        useEffect(() => {
+            const loadData = async () => {
+                setUsersLoading(true);
+                const querySnapshot = await getDocs(todoRef);
+                const users = [];
+                querySnapshot.forEach((doc) => {
+                    const {nama,idKurir,alamat,kodePosko} = doc.data();
+                    users.push({
+                        id:doc.id,
+                        nama,
+                        idKurir,
+                        alamat,
+                        kodePosko,
+                    }); console.log('Data berhasil diambil')
+                });
+                setUsers(users);
+                setUsersLoading(false);
+            };
+            loadData();
+        }, []);
+
+        // useEffect(async()=>{
+        //     todoRef
+        //     .onSnapshot(
+        //         querySnapshot=>{
+        //         const users = [];
+        //         querySnapshot.forEach((doc)=>{
+        //             const {nama,idKurir,alamat,kodePosko} = doc.data();
+        //             users.push({
+        //                 id:doc.id,
+        //                 nama,
+        //                 idKurir,
+        //                 alamat,
+        //                 kodePosko,
+        //             });
+        //         });
+        //         setUsers(users);
+        //         }
+        //     );
+        // },[]);
+    // }
 
     return(
         <View style={styles.container}>
@@ -49,7 +76,7 @@ const DataKurir =({navigation}) =>{
                 <Text style={styles.title}> KURIR APPS </Text>
              </View>
         <FlatList
-        data={List}
+        data={users}
         KeyExtractor={item => item.id}
         renderItem={({item}) =>(
         <TouchableOpacity style={styles.btnEdit} onPress={() => navigation.navigate('EditKurir')}>
@@ -72,7 +99,6 @@ const DataKurir =({navigation}) =>{
         )}
         />
             {/* Button  */}
-            
                 <TouchableOpacity style={styles.btnTambah} onPress={() => navigation.navigate('Home')}>
                         <Text style={styles.plus}> + </Text>
                 </TouchableOpacity>
