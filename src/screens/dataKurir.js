@@ -9,7 +9,6 @@ import {useNavigation} from '@react-navigation/native'
 import firestore from '@react-native-firebase/firestore';
 
 
-
 const DataKurir =({navigation}) =>{
     const [refreshing, setRefreshing] = React.useState(false);
     const onRefresh = React.useCallback(() => {
@@ -89,9 +88,9 @@ const DataKurir =({navigation}) =>{
                         <Text style={styles.subempat}>Kode Posko </Text>
                     </View>
                     <View style={styles.DataHasil}>
-                        <Text style={styles.hasildua}> {item.KodeKurir}</Text>
-                        <Text style={styles.hasiltiga}> {item.Alamat}</Text>
-                        <Text style={styles.hasilempat}> {item.KodePosko}</Text>
+                        <Text style={styles.hasildua}> {item.idKurir}</Text>
+                        <Text style={styles.hasiltiga}> {item.alamat}</Text>
+                        <Text style={styles.hasilempat}> {item.kodePosko}</Text>
                     </View>
                 </View>
             </View>
