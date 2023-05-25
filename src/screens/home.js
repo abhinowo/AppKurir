@@ -1,15 +1,12 @@
 // import * as React from 'react';
 import {View,Text,TextInput,StyleSheet,SafeAreaView,Image,Button,TouchableOpacity,StatusBar} from 'react-native';
 import colors from '../assets/colors/colors';
-
 import React, {useSelector, useEffect, useDispatch, useState,Component } from 'react';
 import {setForm} from '../redux'
 import {useNavigation} from '@react-navigation/native'
-
 // import firestore
 import{getFirestore, query, getDocs, collection, where, addDoc,} from "firebase/firestore";
 import { doc, setDoc,updateDoc } from "firebase/firestore"; 
-
 // import firebase 
 import {initializeApp} from 'firebase/app';
 import {getAuth} from 'firebase/auth';
@@ -27,20 +24,37 @@ const Home = ({navigation}) =>{
     const[alamat,setAlamat] = useState(''); 
     const {navigate} = useNavigation();
 
-    function add(){
-        addDoc(collection(db, "tambahKurir"), {
-            alamat: alamat,
-            email: email,
-            idKurir: idKurir,
-            kodePosko: kodePosko,
-            nama: nama,
-        }).then(() => {
-            console.log("data submitted")
-            alert('Data berhasil ditambahkan')
-            navigation.navigate('DataKurir')
-        }).catch((error) => {
-            console.log(error);
-        })
+    // regex kode pos 5 digit dan awalan tidak boleh angka 0
+    let pos = /^\d{5}$/; 
+
+    const handleTambahKurir = () => {
+        if (nama.trim()==='' || idKurir.trim()==='' || kodePosko.trim()==='' || email.trim()==='' || alamat.trim()===''){
+            alert('Data tidak boleh kosong')
+            return
+        }
+        else if(pos.test(kodePosko) === false){
+            alert('Kode pos tidak valid')
+            return
+        }
+        else{
+            addDoc(collection(db, "tambahKurir"), {
+                alamat: alamat,
+                email: email,
+                idKurir: idKurir,
+                kodePosko: kodePosko,
+                nama: nama,
+            }).then(() => {
+                console.log("data submitted")
+                alert('Data berhasil ditambahkan')
+                navigation.navigate('DataKurir')
+            }).catch((error) => {
+                console.log(error);
+            })
+            setTimeout(() => {
+                navigate('DataKurir'); //this.props.navigation.navigate('Login')
+            }, 2000);
+                alert ('Data berhasil di Update')
+        }
     }
 
     return(
@@ -69,10 +83,12 @@ const Home = ({navigation}) =>{
             </View>
             <Text style={styles.inputTitle}>Kode Posko</Text>
             <View style={styles.inputWrapper}>
-                <TextInput style={styles.inputPh} 
+                <TextInput style={styles.inputPh}
+                    keyboardType='decimal-pad' 
                     placeholder="Masukan Kode Posko" 
                     placeholderTextColor={colors.textLight}
-                    onChangeText={text=>setKodePosko(text)}                    />
+                    onChangeText={text=>setKodePosko(text)}                    
+                    />
             </View>
             <Text style={styles.inputTitle}>Email</Text>
             <View style={styles.inputWrapper}>
@@ -92,7 +108,7 @@ const Home = ({navigation}) =>{
             </View>
 
         {/*Button*/}
-            <TouchableOpacity style={styles.btnMasuk} onPress={add} >
+            <TouchableOpacity style={styles.btnMasuk} onPress={handleTambahKurir} >
                     <Text style={styles.txtButton}> Konfirmasi</Text>
             </TouchableOpacity>
         </View>

@@ -1,20 +1,17 @@
 import * as React from 'react';
 import {View,Text,TextInput,StyleSheet,SafeAreaView,Image,Button,TouchableOpacity,StatusBar, ScrollView, RefreshControl, KeyboardAvoidingView} from 'react-native';
-import colors from '../assets/colors/colors';
+import colors from '../../assets/colors/colors';
 import {
     GoogleSignin,
     statusCodes,
 } from '@react-native-google-signin/google-signin';
 import {useState,useEffect} from 'react';
-import {useSelector} from 'react-redux'
-import{signInWithEmailAndPassword} from 'firebase/auth'
-import {auth} from '../database/firebase'
-
-// for google login
-// import { getAuth, signInWithPopup, GoogleAuthProvider,getRedirectResult } from "firebase/auth";
+import{getAuth,signInWithEmailAndPassword} from 'firebase/auth'
+import {auth} from '../../database/firebase'
+import Swal from 'sweetalert2';
 
 
-const Login = ({navigation}) =>{
+const Login = ({navigation,setIsAuthenticated}) =>{
     const [email,setEmail] = useState('');
     const [password,setPassword] = useState('');
     const [user,setUser] = useState();
@@ -40,12 +37,13 @@ const Login = ({navigation}) =>{
             // play services not available or outdated
           } else {
             navigation.navigate('DataKurir')
-            // some other error happened
           }
         }
       };
 
-    const handleLogin =() => {
+    const handleLogin =async(e) => {
+        e.preventDefault();
+
         if(!email || !password){
         alert('Please fill all the field')
         return
@@ -53,7 +51,7 @@ const Login = ({navigation}) =>{
         else{
             signInWithEmailAndPassword(auth, email, password)
             .then((user) => {
-                console.log('User account signed in!');
+            console.log('User account signed in!');
             navigation.navigate('DataKurir')
             })
             .catch(error => {
@@ -67,6 +65,66 @@ const Login = ({navigation}) =>{
             })
         }
     }
+
+    const handleTwitter = () => {
+        e.preventDefault();
+        if(!email || !password){
+            alert('Please fill all the field')
+            return
+        }
+        else{
+        signInWithEmailAndPassword(auth, email, password)
+        .then((user) => {
+        // sign in by implementing sweet alerty
+            Swal.fire({
+                timer:1500,
+                showConfirmButton:false,
+                willOpen: () => {
+                Swal.showLoading()
+                console.log('Loading...')
+                },
+            willClose: () => {
+                setIsAuthenticated(true)
+           ///     navigation.navigate('DataKurir')   
+               
+            Swal.fire({
+                icon: 'success',
+                title: 'Successfully logged in!',
+                showConfirmButton: false,
+                timer: 1500,
+                });
+        }
+        })
+        })
+        .catch(error => {
+            if (error.code === 'auth/email-already-in-use') {
+            console.log('That email address is already in use!');
+            }
+            if (error.code === 'auth/invalid-email') {
+            console.log('That email address is invalid!');
+            }
+            console.error(error);
+        })
+        .catch (error);  {
+            Swal.fire({
+            timer: 1500,
+            showConfirmButton: false,
+            willOpen: () => {
+                Swal.showLoading();
+            console.error()
+            },
+          willClose: () => {
+            Swal.fire({
+              icon: 'error',
+              title: 'Error!',
+              text: 'Incorrect email or password.',
+              showConfirmButton: true,
+            });
+          },
+        });
+      }
+    }
+}
 
     const [refreshing, setRefreshing] = React.useState(false);
     const onRefresh = React.useCallback(() => {
@@ -88,8 +146,8 @@ const Login = ({navigation}) =>{
         
         {/*Input*/}
             <View style={styles.inputWrapper}>
-                <Image source= {require('../assets/images/username/username.png')} style={styles.backIconUser}/>
-                <Image source= {require('../assets/images/Line.png')} style={styles.backgroundph}/>
+                <Image source= {require('../../assets/images/username/username.png')} style={styles.backIconUser}/>
+                <Image source= {require('../../assets/images/Line.png')} style={styles.backgroundph}/>
                 <TextInput style={styles.inputUser} 
                     value = {email}
                     onChangeText={text=>setEmail(text)}
@@ -98,8 +156,8 @@ const Login = ({navigation}) =>{
             </View>
             <Text style={styles.txtTitle}>Kata Sandi</Text>
             <View style={styles.inputWrapper}> 
-                <Image source= {require('../assets/images/password/password.png')} style={styles.backIconPass}/>
-                <Image source= {require('../assets/images/Line.png')} style={styles.backgroundph}/>
+                <Image source= {require('../../assets/images/password/password.png')} style={styles.backIconPass}/>
+                <Image source= {require('../../assets/images/Line.png')} style={styles.backgroundph}/>
                 <TextInput style={styles.inputPass} 
                     value = {password}
                     onChangeText={text=>setPassword(text)}
@@ -128,48 +186,25 @@ const Login = ({navigation}) =>{
                 <TouchableOpacity style={styles.klikLogo}
                     onPress={() => {
                         signIn()
-                        // GoogleSignin.configure({})
-                    // }>
-                    // GoogleSignin.configure({
-                    //     webClientId: '111000193801-ebfjus5ko52u05mp9nh36u9uiek853l0.apps.googleusercontent.com',
-                    //     androidClientId : '111000193801-32ratkqht1ac37jgr9shem70tiv0cj1l.apps.googleusercontent.com',
-                    //     offlineAccess: true,
-                    // //terbaru-androidClientId: '588263491172-okllkk9uocmsetqsmvvt8otm0g6167ij.apps.googleusercontent.com',
-                    // // androidClientId: '1010936747062-hjm04813igf09gckm21k9ga9g89boqc8.apps.googleusercontent.com',
-                    //  //   iosClientId: 'ADD_YOUR_iOS_CLIENT_ID_HERE',
-                    // });
-                    // GoogleSignin.hasPlayServices().then((hasPlayService) => {
-                    // if (hasPlayService) {
-                    //     GoogleSignin.signIn().then((userInfo) => {
-                    //             // console.log(JSON.stringify(userInfo))
-                    //             // console.log("Berhasil masuk")
-                    //             navigation.navigate('DataKurir')
-                    //     }).catch((e) => {
-                    //     console.log("ERROR IS: " + JSON.stringify(e));
-                    //     })
-                    //         }
-                    // }).catch((e) => {
-                    //     console.log("ERROR IS: " + JSON.stringify(e));
-                    // })
                     }}            
                     >
-                    <Image source= {require('../assets/images/google.png')} style={styles.logo}/>
+                    <Image source= {require('../../assets/images/google.png')} style={styles.logo}/>
                 </TouchableOpacity>
             </View>
         
         {/* facebook */}
             <View>
-                <TouchableOpacity style={styles.klikLogo}
-                    onPress={() => {}}>
-                    <Image source= {require('../assets/images/facebook.png')} style={styles.logo}/>           
+                <TouchableOpacity style={styles.klikLogo} onPress={() => navigation.navigate('DataKurir')}>
+                {/* <TouchableOpacity style={styles.klikLogo} */}
+                    {/* onPress={() => {}}> */}
+                    <Image source= {require('../../assets/images/facebook.png')} style={styles.logo}/>           
                 </TouchableOpacity>
             </View>
 
         {/* twitter */}
             <View>
-                <TouchableOpacity style={styles.klikLogo}
-                    onPress={() => {}}>
-                    <Image source= {require('../assets/images/twitter.png')} style={styles.logo}/>           
+                <TouchableOpacity style={styles.klikLogo} onPress={handleTwitter}>
+                    <Image source= {require('../../assets/images/twitter.png')} style={styles.logo}/>           
                 </TouchableOpacity>
             </View>
         </View>
@@ -183,8 +218,8 @@ const Login = ({navigation}) =>{
             </View>
         </KeyboardAvoidingView>           
         </View>
-    )
-}
+    )}
+
 
 export default Login;
 
