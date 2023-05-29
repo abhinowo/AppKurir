@@ -1,21 +1,19 @@
 // import * as React from 'react';
 import {View,Text,TextInput,StyleSheet,SafeAreaView,Image,Button,TouchableOpacity,StatusBar} from 'react-native';
-import colors from '../assets/colors/colors';
+import colors from '../../assets/colors/colors';
 
 import React, {useSelector, useEffect, useDispatch, useState,Component } from 'react';
 import {setForm} from '../redux'
 import {useNavigation} from '@react-navigation/native'
 
 // import firestore
-import{getFirestore, query, getDocs, collection, where, addDoc,} from "firebase/firestore";
-import { doc, setDoc,updateDoc } from "firebase/firestore"; 
+import{getFirestore, query, getDocs, collection, where, addDoc,doc, setDoc,updateDoc} from "firebase/firestore";
 
 // import firebase 
 import {initializeApp} from 'firebase/app';
 import {getAuth} from 'firebase/auth';
-import firebase from '../database/firebase'
-import {auth,db} from '../database/firebase'
-
+import firebase from '../../database/firebase'
+import {auth,db} from '../../database/firebase'
 
 // import auth from '@react-native-firebase/auth';
 import {createUserWithEmailAndPassword} from 'firebase/auth'
@@ -31,23 +29,22 @@ const Register = ({navigation}) =>{
     const [confirmpassword,confirmPassword] = useState('');
 
 // this code to add data to firestore
-    function add(){
-        addDoc(collection(db, "users"), {
-            nohp: nohp,
-            email: email,
-            // idKurir: idKurir,
-            password: password,
-            confirmpassword: confirmpassword,
-            nama: nama,
-            id:id,
-        }).then(() => {
-            console.log("data submitted")
-            alert ('Registration Success')
-            navigation.navigate('Login')
-        }).catch((error) => {
-            console.log(error);
-        })
-    }
+    // function add(){
+    //     addDoc(collection(db, "users"), {
+    //         nohp: nohp,
+    //         email: email,
+    //         password: password,
+    //         confirmpassword: confirmpassword,
+    //         nama: nama,
+    //         id:id,
+    //     }).then(() => {
+    //         console.log("data submitted")
+    //         alert ('Registration Success')
+    //         navigation.navigate('Login')
+    //     }).catch((error) => {
+    //         console.log(error);
+    //     })
+    // }
 
     const {navigate} = useNavigation();
  
@@ -55,23 +52,24 @@ const Register = ({navigation}) =>{
 
     const handleRegistration = () => {
             if (nama.trim()===''|| email.trim()==='' || nohp.trim()===''|| password.trim()==='' || confirmpassword.trim()===''){
-            alert('Please fill all the field')
+            alert('Data tidak boleh kosong')
             return
         }
         else if(nama.length < 3){
             alert('Nama harus lebih dari 3 karakter')
             return
         }
+        // else if(reg.email === false){
         else if(reg.test(email) === false){
-            alert("Please enter a valid email address");
-            return false;
+            alert("Tolong masukan email yang valid");
+            return
         }
         else if(nohp.length<10){
-            alert('please enter a valid phone number')
+            alert('Tolong masukan nomor hp yang valid')
             return
         }
         else if(password !== confirmpassword){
-            alert('Password and Confirm Password is not same')
+            alert('Password dan konfirmasi password harus sama')
             return
         }
         else{
@@ -79,7 +77,7 @@ const Register = ({navigation}) =>{
             setTimeout(() => {
             navigate('Login'); //this.props.navigation.navigate('Login')
         }, 2000);
-            alert ('Registration Success')
+            alert ('Registratrasi Berhasil')
         }
         // .catch(error => alert(error.message))
     }
@@ -102,8 +100,8 @@ const Register = ({navigation}) =>{
         {/*Input*/}
             <View style={styles.inputWrapper}>
                 <Image 
-                source= {require('../assets/images/username/username.png')} style={styles.backIconUser}/>
-                <Image source= {require('../assets/images/Line.png')} style={styles.backgroundph}/>
+                source= {require('../../assets/images/username/username.png')} style={styles.backIconUser}/>
+                <Image source= {require('../../assets/images/Line.png')} style={styles.backgroundph}/>
                 <TextInput style={styles.inputUser} 
                     onChangeText={text=>setNama(text)}
                     onChangeText={text=>setNama(text)}
@@ -112,8 +110,8 @@ const Register = ({navigation}) =>{
             </View>
             <Text style={styles.txtTitle}>Alamat Email</Text>
             <View style={styles.inputWrapper}> 
-                <Image source= {require('../assets/images/email/mail.png')} style={styles.backIconPass}/>
-                <Image source= {require('../assets/images/Line.png')} style={styles.backgroundph}/>
+                <Image source= {require('../../assets/images/email/mail.png')} style={styles.backIconPass}/>
+                <Image source= {require('../../assets/images/Line.png')} style={styles.backgroundph}/>
                 <TextInput style={styles.inputPass} 
                     placeholder="Masukan alamat email mu"
                     keyboardType= 'email-address'
@@ -124,8 +122,8 @@ const Register = ({navigation}) =>{
             </View>
             <Text style={styles.txtTitle}>Nomor Handphone</Text>
             <View style={styles.inputWrapper}> 
-                <Image source= {require('../assets/images/call/call.png')} style={styles.backIconPass}/>
-                <Image source= {require('../assets/images/Line.png')} style={styles.backgroundph}/>
+                <Image source= {require('../../assets/images/call/call.png')} style={styles.backIconPass}/>
+                <Image source= {require('../../assets/images/Line.png')} style={styles.backgroundph}/>
                 <TextInput style={styles.inputPass} 
                     placeholder="Masukan nomor handphone mu" 
                     keyboardType='decimal-pad'
@@ -135,8 +133,8 @@ const Register = ({navigation}) =>{
             </View>
             <Text style={styles.txtTitle}>Kata Sandi</Text>
             <View style={styles.inputWrapper}> 
-                <Image source= {require('../assets/images/password/password.png')} style={styles.backIconPass}/>
-                <Image source= {require('../assets/images/Line.png')} style={styles.backgroundph}/>
+                <Image source= {require('../../assets/images/password/password.png')} style={styles.backIconPass}/>
+                <Image source= {require('../../assets/images/Line.png')} style={styles.backgroundph}/>
                 <TextInput style={styles.inputPass} 
                     placeholder="Masukan password mu" 
                     placeholderTextColor={colors.textLight}
@@ -146,8 +144,8 @@ const Register = ({navigation}) =>{
             </View>
             <Text style={styles.txtTitle}>Ulangi Kata Sandi</Text>
             <View style={styles.inputWrapper}> 
-                <Image source= {require('../assets/images/password/password.png')} style={styles.backIconPass}/>
-                <Image source= {require('../assets/images/Line.png')} style={styles.backgroundph}/>
+                <Image source= {require('../../assets/images/password/password.png')} style={styles.backIconPass}/>
+                <Image source= {require('../../assets/images/Line.png')} style={styles.backgroundph}/>
                 <TextInput style={styles.inputPass} 
                     placeholder="Ulangi password mu" 
                     onChangeText={text=>confirmPassword(text)}
@@ -158,8 +156,8 @@ const Register = ({navigation}) =>{
             <Text style={styles.inputSyarat}> Saya menyetujui syarat dan ketentuan yang berlaku </Text>
         
         {/*Button*/}
-        {/* <TouchableOpacity style={styles.btnMasuk} onPress={handlreRegistration} > */}
-            <TouchableOpacity style={styles.btnMasuk} onPress={add} >
+        <TouchableOpacity style={styles.btnMasuk} onPress={handleRegistration} >
+            {/* <TouchableOpacity style={styles.btnMasuk} onPress={add} > */}
                 <Text style={styles.txtButton}> Masuk</Text>
             </TouchableOpacity>
             

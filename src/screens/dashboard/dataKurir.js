@@ -1,9 +1,9 @@
 import {View,Text,StyleSheet,Button,FlatList,StatusBar, TouchableOpacity, ScrollView, RefreshControl, KeyboardAvoidingView, Platform} from 'react-native';
-import colors from '../assets/colors/colors';
+import colors from '../../assets/colors/colors';
 import React, {useSelector, useEffect, useDispatch, useState,Component } from 'react';
 import {createSelector} from 'reselect'
 import{getFirestore, query, getDocs, collection, where, addDoc,doc, setDoc,updateDoc,getDoc} from "firebase/firestore";
-import {app,auth,db} from '../database/firebase'
+import {app,auth,db} from '../../database/firebase'
 import {useNavigation} from '@react-navigation/native'
 
 import firestore from '@react-native-firebase/firestore';
@@ -16,9 +16,9 @@ const DataKurir =({navigation}) =>{
     wait(2000).then(() => setRefreshing(false));
     }, []);
 
-    // const List =() => {
+    
         const[users,setUsers] = useState([]);
-        const [usersLoading, setUsersLoading] = useState(false);
+        const[usersLoading,setUsersLoading] = useState(false);
 
         const todoRef = collection(db, "tambahKurir")
         // const todoRef = firestore().collection('tambahKurir');
@@ -44,26 +44,6 @@ const DataKurir =({navigation}) =>{
             loadData();
         }, []);
 
-        // useEffect(async()=>{
-        //     todoRef
-        //     .onSnapshot(
-        //         querySnapshot=>{
-        //         const users = [];
-        //         querySnapshot.forEach((doc)=>{
-        //             const {nama,idKurir,alamat,kodePosko} = doc.data();
-        //             users.push({
-        //                 id:doc.id,
-        //                 nama,
-        //                 idKurir,
-        //                 alamat,
-        //                 kodePosko,
-        //             });
-        //         });
-        //         setUsers(users);
-        //         }
-        //     );
-        // },[]);
-    // }
 
     return(
         <View style={styles.container}>
@@ -78,7 +58,7 @@ const DataKurir =({navigation}) =>{
         data={users}
         KeyExtractor={item => item.id}
         renderItem={({item}) =>(
-        <TouchableOpacity style={styles.btnEdit} onPress={() => navigation.navigate('EditKurir')}>
+        <TouchableOpacity style={styles.btnEdit} onPress={() => navigation.navigate('EditKurir', item)}>
             <View style={styles.border} >
                 <Text style={styles.subsatu}>{item.nama} </Text>
                 <View style={styles.DataAwal}>
@@ -98,7 +78,7 @@ const DataKurir =({navigation}) =>{
         )}
         />
             {/* Button  */}
-                <TouchableOpacity style={styles.btnTambah} onPress={() => navigation.navigate('Home')}>
+                <TouchableOpacity style={styles.btnTambah} onPress={() => navigation.navigate('AddKurir')}>
                         <Text style={styles.plus}> + </Text>
                 </TouchableOpacity>
             </KeyboardAvoidingView>

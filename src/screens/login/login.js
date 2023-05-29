@@ -8,7 +8,9 @@ import {
 import {useState,useEffect} from 'react';
 import{getAuth,signInWithEmailAndPassword} from 'firebase/auth'
 import {auth} from '../../database/firebase'
-import Swal from 'sweetalert2';
+// import Swal from 'sweetalert2';
+import SweetAlert from 'react-native-sweet-alert';
+// import {useNavigation} from '@react-navigation/native'
 
 
 const Login = ({navigation,setIsAuthenticated}) =>{
@@ -16,6 +18,8 @@ const Login = ({navigation,setIsAuthenticated}) =>{
     const [password,setPassword] = useState('');
     const [user,setUser] = useState();
     const[initializing,setInitializing] = useState(true);
+    // const {navigate} = useNavigation();
+
 
     GoogleSignin.configure({
         webClientId: '111000193801-ebfjus5ko52u05mp9nh36u9uiek853l0.apps.googleusercontent.com',
@@ -52,7 +56,7 @@ const Login = ({navigation,setIsAuthenticated}) =>{
             signInWithEmailAndPassword(auth, email, password)
             .then((user) => {
             console.log('User account signed in!');
-            navigation.navigate('DataKurir')
+            navigation.navigate('TabNavigator')
             })
             .catch(error => {
                 if (error.code === 'auth/email-already-in-use') {
@@ -66,7 +70,7 @@ const Login = ({navigation,setIsAuthenticated}) =>{
         }
     }
 
-    const handleTwitter = () => {
+    const handleTwitter = async(e) => {
         e.preventDefault();
         if(!email || !password){
             alert('Please fill all the field')
@@ -75,26 +79,18 @@ const Login = ({navigation,setIsAuthenticated}) =>{
         else{
         signInWithEmailAndPassword(auth, email, password)
         .then((user) => {
-        // sign in by implementing sweet alerty
-            Swal.fire({
-                timer:1500,
-                showConfirmButton:false,
-                willOpen: () => {
-                Swal.showLoading()
-                console.log('Loading...')
-                },
-            willClose: () => {
-                setIsAuthenticated(true)
-           ///     navigation.navigate('DataKurir')   
-               
-            Swal.fire({
-                icon: 'success',
-                title: 'Successfully logged in!',
-                showConfirmButton: false,
-                timer: 1500,
-                });
-        }
-        })
+        // signin by implementing sweet alert
+            SweetAlert.showAlertWithOptions({
+                // title : 'OK',
+                subTitle: 'Successfully logged in!',
+                // confirmButtonTitle : 'OK',
+                confirmButtonColor: '#000',
+                otherButtonColor: '#dedede',
+                style: 'success',
+                // navigation.navigate('TabNavigator'),
+        }, callback => console.log('callback'),
+     
+        )
         })
         .catch(error => {
             if (error.code === 'auth/email-already-in-use') {
@@ -105,24 +101,6 @@ const Login = ({navigation,setIsAuthenticated}) =>{
             }
             console.error(error);
         })
-        .catch (error);  {
-            Swal.fire({
-            timer: 1500,
-            showConfirmButton: false,
-            willOpen: () => {
-                Swal.showLoading();
-            console.error()
-            },
-          willClose: () => {
-            Swal.fire({
-              icon: 'error',
-              title: 'Error!',
-              text: 'Incorrect email or password.',
-              showConfirmButton: true,
-            });
-          },
-        });
-      }
     }
 }
 
@@ -194,7 +172,7 @@ const Login = ({navigation,setIsAuthenticated}) =>{
         
         {/* facebook */}
             <View>
-                <TouchableOpacity style={styles.klikLogo} onPress={() => navigation.navigate('DataKurir')}>
+                <TouchableOpacity style={styles.klikLogo} onPress={() => navigation.navigate('TabNavigator')}>
                 {/* <TouchableOpacity style={styles.klikLogo} */}
                     {/* onPress={() => {}}> */}
                     <Image source= {require('../../assets/images/facebook.png')} style={styles.logo}/>           
@@ -261,17 +239,13 @@ const styles = StyleSheet.create({
         height:20,
     },
     inputUser:{
-        // marginTop:22,
-        // paddingHorizontal:78,
         marginLeft:36,
         color: colors.textUltraDark,
         fontFamily: 'Quicksand-Bold',
         fontSize: 12,
     },
     inputPass:{
-        // marginTop:22,
         marginLeft:36,
-        // paddingHorizontal:78,
         color: colors.textUltraDark,
         fontFamily: 'Quicksand-Bold',
         fontSize: 12,

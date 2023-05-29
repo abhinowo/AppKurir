@@ -1,8 +1,8 @@
 // import * as React from 'react';
 import {View,Text,TextInput,StyleSheet,SafeAreaView,Image,Button,TouchableOpacity,StatusBar} from 'react-native';
-import colors from '../assets/colors/colors';
+import colors from '../../assets/colors/colors';
 import React, {useSelector, useEffect, useDispatch, useState,Component } from 'react';
-import {setForm} from '../redux'
+import {setForm} from '../../redux'
 import {useNavigation} from '@react-navigation/native'
 // import firestore
 import{getFirestore, query, getDocs, collection, where, addDoc,} from "firebase/firestore";
@@ -10,19 +10,32 @@ import { doc, setDoc,updateDoc } from "firebase/firestore";
 // import firebase 
 import {initializeApp} from 'firebase/app';
 import {getAuth} from 'firebase/auth';
-import firebase from '../database/firebase'
-import {auth,db} from '../database/firebase'
-
+import firebase from '../../database/firebase'
+import {auth,db} from '../../database/firebase'
 
 // import auth from '@react-native-firebase/auth';
 import {createUserWithEmailAndPassword} from 'firebase/auth'
-const Home = ({navigation}) =>{
+
+const AddKurir = ({navigation, employees,tambahKurir,setIsAdding}) =>{
     const[idKurir,setIDkurir] = useState('');
     const[nama,setNama] = useState('');
     const[kodePosko,setKodePosko] = useState('');
     const[email,setEmail] = useState('');
     const[alamat,setAlamat] = useState(''); 
     const {navigate} = useNavigation();
+
+    //coba baru biar lebih simple
+    const newKurir = {
+        idKurir: idKurir,
+        nama: nama,
+        kodePosko: kodePosko,
+        email: email,
+        alamat: alamat,
+    };
+
+    // tambahKurir.push(newKurir);
+
+    // setIsAdding(false);
 
     // regex kode pos 5 digit dan awalan tidak boleh angka 0
     let pos = /^\d{5}$/; 
@@ -38,11 +51,12 @@ const Home = ({navigation}) =>{
         }
         else{
             addDoc(collection(db, "tambahKurir"), {
-                alamat: alamat,
-                email: email,
-                idKurir: idKurir,
-                kodePosko: kodePosko,
-                nama: nama,
+                ...newKurir
+                // alamat: alamat,
+                // email: email,
+                // idKurir: idKurir,
+                // kodePosko: kodePosko,
+                // nama: nama,
             }).then(() => {
                 console.log("data submitted")
                 alert('Data berhasil ditambahkan')
@@ -115,8 +129,7 @@ const Home = ({navigation}) =>{
     )
 }
 
-
-export default Home;
+export default AddKurir;
 
 const styles = StyleSheet.create({
     container: {
